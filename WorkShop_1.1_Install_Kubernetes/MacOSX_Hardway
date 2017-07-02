@@ -1,0 +1,29 @@
+Manual install minikube for mac osx:
+1. Install Oracle VirtualBox
+2. Install Docker Toolbox
+3. Install Docker Version Manager (DVM)
+
+    MAC OS X or Linux (No Home Brew)
+      - curl -sL https://howtowhale.github.io/dvm/downloads/latest/install.sh | sh
+      - source /Users/xxxx/.dvm/dvm.sh
+
+
+4. Install minikube
+
+    MAC OS X:
+    curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
+    chmod +x minikube
+    sudo mv minikube /usr/local/bin/
+
+5. install kubectl for command line to kubenetes cluster:
+
+    MAC OS X:
+    curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/latest/bin/darwin/amd64/kubectl
+    chmod +x kubectl
+    sudo mv kubectl /usr/local/bin/
+
+6. start minikube on command line: minikube start --vm-driver=virtualbox profile=minikubelab1 --iso-url=https://storage.googleapis.com/minikube/iso/minikube-v0.20.0.iso
+
+7. check status of minikube via command line: minikube status
+
+8. check controller status via command line: kubectl get cs

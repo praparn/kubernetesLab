@@ -1,0 +1,119 @@
+Instruction for Workshop 1.2:
+====================================================
+Part 1: Create basic Pods for single container:
+This workshop will create web Pods and simple map to outside
+====================================================
+
+1. Get command prompt for access folder workshop 1.2 by command :cd /xxxx/WorkShop_1.2_Pods_Service_Deployment/singlecontainer
+2. Workshop should contain file as below:
+-rw-r--r--@ 1 praparn  staff   550B Jul  2 09:29 instruction.txt
+-rw-r--r--@ 1 praparn  staff   321B Jul  2 12:52 webtest_pod.yml
+-rw-r--r--@ 1 praparn  staff   393B Jul  2 12:52 webtest_svc.yml
+
+3. Create Pods and check Pods state (Expect: Running) by command:
+	kubectl create -f webtest_pod.yml
+	kubectl get pods
+
+4. Create Service and check mapping port by command:
+	kubectl create -f webtest_svc.yml
+	kubectl get svc
+
+	---------------------------------------------------
+	Example: Port mapping outside on TCP:32131
+	---------------------------------------------------
+	NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
+	kubernetes   10.0.0.1     <none>        443/TCP          4d
+	webtest      10.0.0.87    <nodes>       5000:32131/TCP   4m
+	---------------------------------------------------
+
+5. Test curl and web browser for access web by command:
+	curl http://<ip of minikube>:<port>
+
+6. Check detail of Pods and service by command:
+	kubectl describe pods webtest
+	kubectl describe svc webtest
+
+7. Clear environment by delete Pods and service by command:
+	kubectl delete pods webtest
+	kubectl delete svc webtest
+
+====================================================
+Part 2: Create multiple
+This workshop will create Pods with multiple container
+====================================================
+
+1. Get command prompt for access folder workshop 1.2 by command :cd /xxxx/WorkShop_1.2_Pods_Service_Deployment/multicontainer
+2. Workshop should contain file as below:
+-rw-r--r--@ 1 praparn  staff   404B Jul  2 18:01 databasemodule_pod.yml
+-rw-r--r--@ 1 praparn  staff   353B Jul  2 18:25 databasemodule_svc.yml
+-rw-r--r--@ 1 praparn  staff   685B Jul  2 19:19 webmodule_pod.yml
+-rw-r--r--@ 1 praparn  staff   484B Jul  2 19:24 webmodule_svc.yml
+
+3. Create Pods and Service for databasemodule (maindb) by command (Step-by-Step Wait until previous complete before next step):
+	kubectl create -f databasemodule_pod.yml
+	kubectl get pods
+	kubectl create -f databasemodule_svc.yml
+	kubectl get svc
+
+4. Create Pods and Service for webservicemodule (web) by command (Step-by-Step Wait until previous complete before next step):
+	kubectl create -f webmodule_pod.yml
+	kubectl get pods
+	kubectl create -f webmodule_svc.yml
+	kubectl get svc
+
+5. Check ip address of minikube by command: minikube ip
+
+6. Set environment for test by command:
+
+	----------
+	MAC OSX
+	----------
+	export Server_IP=<ip address of minikube>
+	export Server_Port=30500	==> Check port had been fixed from YML file
+
+	----------
+	Windows 10
+	----------
+	set Server_IP=<ip address of minikube>
+	set Server_Port=30500
+
+7. Test get webpage by browser: http://<ip address of minikube>
+
+8. Initial database by command:
+		curl http://$Server_IP:$Server_Port/init			==> initial Database
+
+9. Insert database by command:
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "1", "user":"Praparn Luangphoonlap", "descripe":"Slave"}' http://$Server_IP:$Server_Port/users/insertuser
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "2", "user":"Somchai Sunsukwan", "descripe":"Security Guard"}' http://$Server_IP:$Server_Port/users/insertuser
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "3", "user":"Sanyachan Panrudee", "descripe":"House Keeping"}' http://$Server_IP:$Server_Port/users/insertuser
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "4", "user":"Sakkan Yanyicharoen", "descripe":"Messenger"}' http://$Server_IP:$Server_Port/users/insertuser
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "5", "user":"Chatchai Moungang", "descripe":"Programmer"}' http://$Server_IP:$Server_Port/users/insertuser
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "6", "user":"Anusit Kannaphat", "descripe":"DevOps Manager"}' http://$Server_IP:$Server_Port/users/insertuser
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "7", "user":"Meelarp Maisanuk", "descripe":"System Engineer"}' http://$Server_IP:$Server_Port/users/insertuser
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "8", "user":"Pansa Bunsong", "descripe":"Secuirty Guard"}' http://$Server_IP:$Server_Port/users/insertuser
+		curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "9", "user":"Wiphanee Wongsaisawan", "descripe":"Administrator"}' http://$Server_IP:$Server_Port/users/insertuser
+
+10. Pull data by command:
+		curl http://$Server_IP:$Server_Port/users/1
+		curl http://$Server_IP:$Server_Port/users/1 ==> Expect from Cache
+		curl http://$Server_IP:$Server_Port/users/4
+		curl http://$Server_IP:$Server_Port/users/4 ==> Expect from Cache
+
+11. Delete data by command:
+		curl http://$Server_IP:$Server_Port/users/removeuser/1
+		curl http://$Server_IP:$Server_Port/users/removeuser/2
+		curl http://$Server_IP:$Server_Port/users/removeuser/3
+		curl http://$Server_IP:$Server_Port/users/removeuser/4
+
+12. Create Pods for "web2" and check readyness by command:
+		kubectl create -f webmodule_pod2.yml
+		kubectl get pods
+
+13. Delete existing Pods "web" by command:
+		kubectl delete pods web
+
+14. Test get webpage by browser: http://<ip address of minikube>
+
+15. Remove Pods and Service for Cleanup by command:
+		kubectl delete svc maindb web
+		kubectl delete pods maindb web web2
