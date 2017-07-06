@@ -1,0 +1,77 @@
+Instruction for Workshop 1.3:
+Note: This instruction will demonstrate about how to use RC for maintain avaliable of Pods:
+====================================================
+
+1. Get command prompt for access folder workshop 1.3 by command :cd /xxxx/WorkShop_1.3_Replication_Controller/
+2. Workshop should contain file as below:
+-rw-r--r--@ 1 praparn  staff   321B Jul  2 12:52 webtest_pod.yml
+-rw-r--r--@ 1 praparn  staff   546B Jul  5 21:29 webtest_rc.yml
+-rw-r--r--@ 1 praparn  staff   393B Jul  2 12:52 webtest_svc.yml
+
+3. Create RC and check status by command:
+	kubectl create -f webtest_rc.yml
+	kubectl get rc
+	kubectl get pods
+
+4. Create Service and check status by command:
+	kubectl create -f webtest_svc.yml
+	kubectl get svc
+	---------------------------------------------------
+	Example: Port mapping outside on TCP:32500
+	---------------------------------------------------
+	NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
+  kubernetes   10.0.0.1     <none>        443/TCP          8d
+  webtest      10.0.0.6     <nodes>       5000:32500/TCP   6s
+	---------------------------------------------------
+
+5. Test curl and web browser for access web by command:
+	curl http://<ip of minikube>:32500
+
+	open browser for test can operate: http://<ip of minikube>:32500
+
+6. Delete some Pods by command:
+	kubectl get pods
+	---------------------------------------------------
+	Example: Get name of Pods
+	---------------------------------------------------
+	NAME            READY     STATUS    RESTARTS   AGE
+	webtest-9m8tx   1/1       Running   0          11m
+	webtest-9xgt3   1/1       Running   0          11m
+	webtest-cns49   1/1       Running   0          11m
+	---------------------------------------------------
+
+	kubectl delete pods webtest-9m8tx
+
+7. Check result again by command:
+	kubectl get pods
+	---------------------------------------------------
+	Example: Get Result
+	---------------------------------------------------
+	NAME            READY     STATUS    RESTARTS   AGE
+	webtest-9m8tx   1/1       Running   0          11m
+	webtest-9xgt3   1/1       Running   0          11m
+	webtest-cns49   1/1       Running   0          11m
+	---------------------------------------------------
+
+8. Test curl and web browser for access web by command:
+		curl http://<ip of minikube>:32500
+
+		open browser for test can operate: http://<ip of minikube>:32500
+
+9. Test scale RC by command:
+	kubectl scale --replicas=10 rc/webtest
+	kubectl get rc webtest
+	kubectl get pods
+
+10. Test scale RC via file with command:
+	kubectl scale --replicas=5 -f webtest_rc.yml
+	kubectl get rc webtest
+	kubectl get pods
+
+
+11. Check full detail of RC by command:
+	kubectl describe rc webtest
+
+12. Cleanup Lab by command:
+	kubectl delete -f webtest_svc.yml
+	kubectl delete -f webtest_rc.yml

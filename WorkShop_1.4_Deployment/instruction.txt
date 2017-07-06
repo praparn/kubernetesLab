@@ -1,0 +1,95 @@
+Instruction for Workshop 1.4:
+Note: This instruction will demonstrate about how to use Deployment/RS for deploy Pods and service:
+====================================================
+
+1. Get command prompt for access folder workshop 1.4 by command :cd /xxxx/WorkShop_1.4_Deployment/
+2. Workshop should contain file as below:
+-rw-r--r--@ 1 praparn  staff   321B Jul  2 12:52 webtest_pod.yml
+-rw-r--r--@ 1 praparn  staff   546B Jul  5 21:29 webtest_rc.yml
+-rw-r--r--@ 1 praparn  staff   393B Jul  2 12:52 webtest_deploy.yml
+
+3. Create RC and check status by command:
+	kubectl create -f webtest_deploy.yml --record
+	kubectl get deployment
+	kubectl get pods --show-labels
+
+4. Create Service and check status by command:
+	kubectl create -f webtest_svc.yml --record
+	kubectl get svc
+	---------------------------------------------------
+	Example: Port mapping outside on TCP:32500
+	---------------------------------------------------
+	NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
+  kubernetes   10.0.0.1     <none>        443/TCP          8d
+  webtest      10.0.0.6     <nodes>       5000:32500/TCP   6s
+	---------------------------------------------------
+
+5. Check ReplicaSet by command:
+	kubectl get rs/webtest
+
+
+6. Test curl and web browser for access web by command:
+	curl http://<ip of minikube>:32500
+
+	open browser for test can operate: http://<ip of minikube>:32500
+
+7. Check detail of deployment by command:
+	kubectl describe deployment/webtest
+
+8. Update version of image on deployment by command:
+	kubectl set image deployment/webtest webtest=labdocker/cluster:webservicelite_v1.51rc
+
+9. Check rollout status by command:
+	kubectl rollout status deployment/webtest
+
+10. Check status of deployment, rs, pods by command:
+	kubectl get deployment
+	kubectl get rs
+	kubectl get pods
+
+11. Test curl and web browser for access web by command:
+	curl http://<ip of minikube>:32500
+
+	open browser for test can operate: http://<ip of minikube>:32500
+
+
+12. Update version of image on deployment by command:
+	kubectl set image deployment/webtest webtest=labdocker/cluster:webservicelite_v1.8ga
+
+13. Check rollout status by command:
+	kubectl rollout status deployment/webtest
+
+14. Check status of deployment, rs, pods by command:
+	kubectl get deployment
+	kubectl get rs
+	kubectl get pods
+
+15. Test curl and web browser for access web by command:
+		curl http://<ip of minikube>:32500
+
+		open browser for test can operate: http://<ip of minikube>:32500
+
+16. Check revision of change on history:
+	kubectl rollout history deployment/webtest
+
+	---------------------------------------------------
+	Example: History Result
+	---------------------------------------------------
+	deployments "webtest"
+	REVISION	CHANGE-CAUSE
+	1		kubectl create --filename=webtest_deploy.yml --record=true
+	2		kubectl set image deployment/webtest webtest=labdocker/cluster:webservicelite_v1.51rc
+	3		kubectl set image deployment/webtest webtest=labdocker/cluster:webservicelite_v1.8ga
+	---------------------------------------------------
+
+17. Rollback revision "2" of rollout with command:
+	kubectl rollout undo deployment/webtest --to-revision=2
+
+18. Test curl and web browser for access web by command:
+			curl http://<ip of minikube>:32500
+
+			open browser for test can operate: http://<ip of minikube>:32500
+
+20. Cleanup Lab by command:
+	kubectl delete -f webtest_deploy.yml
+	kubectl delete -f webtest_svc.yml

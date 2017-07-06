@@ -6,7 +6,6 @@ This workshop will create web Pods and simple map to outside
 
 1. Get command prompt for access folder workshop 1.2 by command :cd /xxxx/WorkShop_1.2_Pods_Service_Deployment/singlecontainer
 2. Workshop should contain file as below:
--rw-r--r--@ 1 praparn  staff   550B Jul  2 09:29 instruction.txt
 -rw-r--r--@ 1 praparn  staff   321B Jul  2 12:52 webtest_pod.yml
 -rw-r--r--@ 1 praparn  staff   393B Jul  2 12:52 webtest_svc.yml
 
@@ -33,9 +32,15 @@ This workshop will create web Pods and simple map to outside
 	kubectl describe pods webtest
 	kubectl describe svc webtest
 
+7. Check log from Pods by command:
+	kubectl logs webtest -c webtest
+
+8. Test access to container in Pods by command:
+	kubectl exec -it webtest -c webtest sh
+
 7. Clear environment by delete Pods and service by command:
-	kubectl delete pods webtest
-	kubectl delete svc webtest
+	kubectl delete  -f webtest_pod.yml
+	kubectl delete  -f webtest_svc.yml
 
 ====================================================
 Part 2: Create multiple
@@ -115,5 +120,5 @@ This workshop will create Pods with multiple container
 14. Test get webpage by browser: http://<ip address of minikube>
 
 15. Remove Pods and Service for Cleanup by command:
-		kubectl delete svc maindb web
-		kubectl delete pods maindb web web2
+		kubectl delete -f webmodule_pod2.yml
+		kubectl delete -f webmodule_svc.yml
