@@ -50,6 +50,7 @@ Part1: Container level configuration:
 	export Server_Port=30500 ==> if need to direct test change to 32500
 
 11. Test insert data to Restful by command:
+  curl http://$Server_IP:$Server_Port/init
 	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "1", "user":"Praparn Luangphoonlap", "descripe":"Slave"}' http://$Server_IP:$Server_Port/users/insertuser
 	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "2", "user":"Somchai Sunsukwan", "descripe":"Security Guard"}' http://$Server_IP:$Server_Port/users/insertuser
 	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "3", "user":"Sanyachan Panrudee", "descripe":"House Keeping"}' http://$Server_IP:$Server_Port/users/insertuser
@@ -73,6 +74,6 @@ Part1: Container level configuration:
 	curl http://$Server_IP:$Server_Port/users/removeuser/4
 
 14. Cleanup lab by command:
-	kubectl delete -f webmodule_deploy_config.yml
-	kubectl detete -f databasemodule_deploy_config.yml
+	kubectl delete -f webmodule_deploy_config.yml --namespace=webmicroservice
+	kubectl detete -f databasemodule_deploy_config.yml --namespace=webmicroservice
 	kubectl delete namespace/webmicroservice

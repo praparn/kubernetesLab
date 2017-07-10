@@ -1,0 +1,42 @@
+Instruction for Workshop 1.7:
+Note: This instruction will demonstrate about how to track log and monitor:
+====================================================
+
+====================================================
+Part1: Container Logging:
+====================================================
+1. Get command prompt for access folder workshop 1.7 by command :cd /xxxx/WorkShop_1.7_Log_and_Monitoring
+2. Workshop should contain file as below:
+-rw-r--r--@ 1 praparn  staff   832B Jul 10 08:24 databasemodule_deploy.yml
+-rw-r--r--@ 1 praparn  staff   4.6K Jul 10 22:10 instruction.txt
+-rw-r--r--@ 1 praparn  staff   1.2K Jul 10 08:25 webmodule_deploy.yml
+
+3. Create Database Deployment by command:
+	kubectl create -f databasemodule_deploy.yml
+	kubectl get deploy
+	kubectl get rs
+	kubectl get pods
+
+4. Check Detail of Pods by command:
+	kubectl describe pods/<pods name>
+
+5. Check Log of Pods/Container by command:
+	kubectl logs pods/<pods name> -c maindb
+
+6. Create WebModule Deployment by command:
+	kubectl create -f webmodule_deploy.yml
+	kubectl get deployment/web
+	kubectl get rs
+	kubectl get pods
+
+7. Check Log of WebService by command:
+	kubectl logs pods/<pods name> -c webservice
+
+8. Check Log of WebCache by command:
+	kubectl logs pods/<pods name> -c webcache
+
+9. Check Log of Cachedb by command:
+	kubectl logs pods/<pods name> -c cachedb
+
+10. Open kubenetes dashboard by command:
+	minikube dashboard
