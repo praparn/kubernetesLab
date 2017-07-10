@@ -1,0 +1,78 @@
+Instruction for Workshop 1.6:
+Note: This instruction will demonstrate about how to ConfigMap and Secret on Microservice:
+====================================================
+
+====================================================
+Part1: Container level configuration:
+====================================================
+1. Get command prompt for access folder workshop 1.6 by command :cd /xxxx/WorkShop_1.6_ConfigMap_Secret
+2. Workshop should contain file as below:
+-rw-r--r--@ 1 praparn  staff   832B Jul 10 08:24 databasemodule_deploy.yml
+-rw-r--r--@ 1 praparn  staff   1.0K Jul 10 14:11 databasemodule_deploy_config.yml
+-rw-r--r--@ 1 praparn  staff   300B Jul 10 08:48 databasemodule_secret.yml
+-rw-r--r--@ 1 praparn  staff   5.7K Jul 10 08:01 instruction.txt
+-rw-r--r--@ 1 praparn  staff   296B Jul 10 12:42 webmodule_configmap.yml
+-rw-r--r--@ 1 praparn  staff   1.2K Jul 10 08:25 webmodule_deploy.yml
+-rw-r--r--@ 1 praparn  staff   1.8K Jul 10 14:22 webmodule_deploy_config.yml
+
+3. Create Namespace by command:
+	kubectl create namespace webmicroservice
+
+4. Create ConfigMap by command:
+	kubectl create -f webmodule_configmap.yml --namespace webmicroservice
+	kubectl get configmap --namespace webmicroservice
+	kubectl describe configmap/webmodule-configmap --namespace webmicroservice
+
+5. Create Secret by command:
+	kubectl create -f databasemodule_secret.yml --namespace webmicroservice
+	kubectl get secret --namespace webmicroservice
+	kubectl describe secret/databasemodule-secret --namespace webmicroservice
+
+6. Create Database Deployment by command:
+	kubectl create -f databasemodule_deploy_config.yml --namespace webmicroservice
+	kubectl get deploy --namespace webmicroservice
+	kubectl get rs --namespace webmicroservice
+	kubectl get pods --namespace webmicroservice
+
+7. Check Detail of Pods by command:
+	kubectl describe pods/<pods name>  --namespace webmicroservice
+
+8. Create WebModbule Deployment by command:
+	kubectl create -f webmodule_deploy_config.yml --namespace webmicroservice
+	kubectl get deployment/web --namespace webmicroservice
+	kubectl get rs --namespace webmicroservice
+
+9. Check Detail of Pods by command:
+	kubectl describe pods/<pods name> --namespace webmicroservice
+
+10. Setup Environment for Test:
+	export Server_IP=<ip of minikube>
+	export Server_Port=30500 ==> if need to direct test change to 32500
+
+11. Test insert data to Restful by command:
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "1", "user":"Praparn Luangphoonlap", "descripe":"Slave"}' http://$Server_IP:$Server_Port/users/insertuser
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "2", "user":"Somchai Sunsukwan", "descripe":"Security Guard"}' http://$Server_IP:$Server_Port/users/insertuser
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "3", "user":"Sanyachan Panrudee", "descripe":"House Keeping"}' http://$Server_IP:$Server_Port/users/insertuser
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "4", "user":"Sakkan Yanyicharoen", "descripe":"Messenger"}' http://$Server_IP:$Server_Port/users/insertuser
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "5", "user":"Chatchai Moungang", "descripe":"Programmer"}' http://$Server_IP:$Server_Port/users/insertuser
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "6", "user":"Anusit Kannaphat", "descripe":"DevOps Manager"}' http://$Server_IP:$Server_Port/users/insertuser
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "7", "user":"Meelarp Maisanuk", "descripe":"System Engineer"}' http://$Server_IP:$Server_Port/users/insertuser
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "8", "user":"Pansa Bunsong", "descripe":"Secuirty Guard"}' http://$Server_IP:$Server_Port/users/insertuser
+	curl -i -H "Content-Type: application/json" -X POST -d '{"uid": "9", "user":"Wiphanee Wongsaisawan", "descripe":"Administrator"}' http://$Server_IP:$Server_Port/users/insertuser
+
+12. Test pull data from database and databasecache by command:
+	curl http://$Server_IP:$Server_Port/users/1
+	curl http://$Server_IP:$Server_Port/users/1 ==> Expect from Cache
+	curl http://$Server_IP:$Server_Port/users/4
+	curl http://$Server_IP:$Server_Port/users/4 ==> Expect from Cache
+
+13. Delete data from database and databasecache by command:
+	curl http://$Server_IP:$Server_Port/users/removeuser/1
+	curl http://$Server_IP:$Server_Port/users/removeuser/2
+	curl http://$Server_IP:$Server_Port/users/removeuser/3
+	curl http://$Server_IP:$Server_Port/users/removeuser/4
+
+14. Cleanup lab by command:
+	kubectl delete -f webmodule_deploy_config.yml
+	kubectl detete -f databasemodule_deploy_config.yml
+	kubectl delete namespace/webmicroservice

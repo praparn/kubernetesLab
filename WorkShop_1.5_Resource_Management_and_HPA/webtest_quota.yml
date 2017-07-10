@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: webtest-quota
+  labels:
+    name: webtest_quota
+    owner: Praparn_L
+    version: "1.0"
+    module: Quota
+    environment: development
+spec:
+  hard:
+    pods: "4"
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "4"
+    limits.memory: 4Gi

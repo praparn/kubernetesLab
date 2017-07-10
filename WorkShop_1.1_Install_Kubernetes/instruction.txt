@@ -5,8 +5,9 @@ Workshop's Resource:
 	2. Internet download was needed during workshop
 
 1.See PDF document for detail to install
+
 2.After finished then run below command for check readiness of kubenetes's machine (Command prompt)
 	2.1 kubectl get nodes 				==> check nodes readiness
 	2.2 kubectl get cs 						==> check cluster's status
 	2.3 kubectl get pods					==> check pod avaliable
-	2.4 minikube ip profile=minikubelab1 ==> check ip of kubernetes's machine
+	2.4 minikube ip 							==> check ip of kubernetes's machine

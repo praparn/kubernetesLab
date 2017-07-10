@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: loadbot
+  labels:
+    name: loadbot
+    owner: Praparn_L
+    version: "1.0"
+    module: LoadBot
+    environment: development
+spec:
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        name: loadbot
+        owner: Praparn_L
+        version: "1.0"
+        module: LoadBot
+        environment: development
+    spec:
+      containers:
+        - name: loadbot
+          image: labdocker/alpine:latest
+          command: ["/bin/sh"]
+          args: ["-c", "while true; do wget -q -O- http://webtest.default.svc.cluster.local:5000; done"]

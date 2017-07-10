@@ -8,7 +8,7 @@ Note: This instruction will demonstrate about how to use Deployment/RS for deplo
 -rw-r--r--@ 1 praparn  staff   546B Jul  5 21:29 webtest_rc.yml
 -rw-r--r--@ 1 praparn  staff   393B Jul  2 12:52 webtest_deploy.yml
 
-3. Create RC and check status by command:
+3. Create Deployment and check status by command:
 	kubectl create -f webtest_deploy.yml --record
 	kubectl get deployment
 	kubectl get pods --show-labels
@@ -25,7 +25,7 @@ Note: This instruction will demonstrate about how to use Deployment/RS for deplo
 	---------------------------------------------------
 
 5. Check ReplicaSet by command:
-	kubectl get rs/webtest
+	kubectl get rs
 
 
 6. Test curl and web browser for access web by command:

@@ -117,8 +117,10 @@ This workshop will create Pods with multiple container
 13. Delete existing Pods "web" by command:
 		kubectl delete pods web
 
-14. Test get webpage by browser: http://<ip address of minikube>
+14. Test get webpage by browser: curl http://$Server_IP:$Server_Port/
 
 15. Remove Pods and Service for Cleanup by command:
 		kubectl delete -f webmodule_pod2.yml
 		kubectl delete -f webmodule_svc.yml
+		kubectl delete -f databasemodule_pod.yml
+		kubectl delete -f databasemodule_svc.yml
