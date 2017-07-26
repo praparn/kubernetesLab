@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingresswebtest
+spec:
+  rules:
+  - host: webtest1.kuberneteslabthailand.com
+    http:
+      paths:
+      - backend:
+          serviceName: webtest1
+          servicePort: 80
+  - host: webtest2.kuberneteslabthailand.com
+    http:
+      paths:
+      - backend:
+          serviceName: webtest2
+          servicePort: 80

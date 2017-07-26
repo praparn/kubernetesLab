@@ -1,0 +1,76 @@
+Instruction for Workshop 1.6:
+Note: This instruction will demonstrate about how to manage use job and cronjob:
+====================================================
+Part0: Generate LINE token:
+1. Access website https://notify-bot.line.me
+2. Choose "Login" with line account
+3. Choose "My Page" and "Generate Token"
+4. Input "Token Name" and Select "Direct LINE Notify" (1-by-1)
+5. Copy TOKEN for Operate Next
+
+====================================================
+Create Job for Monitor System via LINE:
+====================================================
+1. Get command prompt for access folder workshop 1.6 by command :cd /xxxx/WorkShop_1.6_Job_CronJob
+2. Workshop should contain file as below:
+-rw-r--r--@ 1 praparn  staff   5.2K Jul  8 21:39 instruction.txt
+-rw-r--r--@ 1 praparn  staff   972B Jul  8 20:15 job.yml
+-rw-r--r--@ 1 praparn  staff   515B Jul  8 20:06 cron.yml
+
+3. Open job.yml file and Edit Environment (Show Information Mode):
+	        env:
+        - name: TITLE
+          value: "BOT:Praparn L."								==> Input Your Name
+        - name: INTERVAL
+          value: "10000"										==> Input Time Interval in Job (ms)
+        - name: HEAP_HIGH
+          value: "40"											==> Input High Monitor HEAP %
+        - name: MEM_HIGH
+          value: "20"											==> Input High Memory %
+        - name: SH_OS
+          value: "Y"											==> Input "Y"
+        - name: TOKEN
+          value: "EIeqyillzkzpaCo1ROrebZTcGbIyzDZHpOjcdd0t6CX"	==> Input LINE TOKEN
+
+
+4. Create Job by command:
+	kubectl create -f job.yml
+	kubectl get jobs -o wide
+	kubectl get pods -o wide
+
+5. Check Detail of Job by command:
+	kubectl describe jobs/linenotify
+
+
+6. Monitor Result on LINE Application:
+
+7. Stop Job by command:
+	kubectl delete -f job.yml
+
+8. Open job.yml file and Edit Environment (Show Information Mode):
+	        env:
+        - name: TITLE
+          value: "BOT:Praparn L."					==> Input Your Name
+        - name: INTERVAL
+          value: "10000"									==> Input Time Interval in Job (ms)
+        - name: HEAP_HIGH
+          value: "20"											==> Input 20%
+        - name: MEM_HIGH
+          value: "20"											==> Input 20%
+        - name: SH_OS
+          value: "Y"											==> Input "N"
+        - name: TOKEN
+          value: "EIeqyillzkzpaCo1ROrebZTcGbIyzDZHpOjcdd0t6CX"	==> Input LINE TOKEN
+
+9. Create Job by command:
+	kubectl create -f job.yml
+	kubectl get jobs -o wide
+	kubectl get pods -o wide
+
+10. Check Detail of Job by command:
+	kubectl describe jobs/linenotify
+
+11. Monitor Result on LINE Application:
+
+12. Delete Job by command:
+	kubectl delete -f job.yml

@@ -1,0 +1,38 @@
+apiVersion: "v1"
+kind: Pod
+metadata:
+  name: webtest2
+  labels:
+    name: web
+    owner: Praparn_L
+    version: "1.0"
+    module: WebServer
+    environment: development
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: environment
+            operator: In
+            values:
+            - development
+        topologyKey: kubernetes.io/hostname
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: module
+              operator: In
+              values:
+              - DBServer
+          topologyKey: storage
+  containers:
+    - name: webtest2
+      image: labdocker/cluster:webservicelite
+      ports:
+        - containerPort: 5000
+          protocol: TCP

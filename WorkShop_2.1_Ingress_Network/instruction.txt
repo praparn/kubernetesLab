@@ -1,0 +1,68 @@
+Instruction for Workshop 2.1 Ingress Network:
+Note: This instruction will start lab for kubernetes for ingress workshop
+--------------------------------------------------------------------------
+0. Enable NGINX addon for ingress by command:
+	minikube addons enable ingress
+
+1. Create Service/Pods/Deployment for webtest1 and webtest2 by command:
+	kubectl create -f webtest_deploy.yml
+	kubectl create -f webtest_deploy2.yml
+
+2. View service for connection by command:
+	kubectl get svc -o wide
+
+	-------------------------------
+	Example Result:
+	-------------------------------
+	NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE       SELECTOR
+kubernetes   10.0.0.1     <none>        443/TCP   17d       <none>
+webtest1     10.0.0.147   <none>        80/TCP    14s       environment=development,module=WebServer,name=webtest1,owner=Praparn
+_L,version=1.0
+webtest2     10.0.0.222   <none>        80/TCP    11s       environment=development,module=WebServer,name=webtest2,owner=Praparn
+_L,version=1.0
+	-------------------------------
+
+	
+3. Try to connect for each service via curl by command:
+	kubectl run curl --image=radial/busyboxplus:curl -i --tty
+	curl http://<ip of webtest1> or curl http://webtest1
+	curl http://<ip of webtest2> or durl http://webtest2
+
+4. Create ingress for access by command:
+	kubectl create -f ingress_webtest.yml
+	kubectl get ing -o wide
+	kubectl describe ing/ingresswebtest
+
+5. Check ip address of minikube by command:
+	minikube ip
+
+6. Add Hosts (/etc/hosts) or (c:\windows\system32\driver\etc\hosts) with minikube ip by command:
+	For Windows:
+		<minikube ip> webtest1.kuberneteslabthailand.com webtest2.kuberneteslabthailand.com
+
+	For Mac:
+	echo "$(minikube ip) webtest1.kuberneteslabthailand.com webtest2.kuberneteslabthailand.com" | sudo tee -a /etc/hosts
+
+	*Remark: for case you don't prefer for add hosts please kindly use curl instead:
+	curl http://<minikube ip> -H 'Host:webtest1.kuberneteslabthailand.com'
+	curl http://<minikube ip> -H 'Host:webtest2.kuberneteslabthailand.com'
+
+7. Test access website by command or browser:
+	curl http://webtest1.kuberneteslabthailand.com
+	curl http://webtest2.kuberneteslabthailand.com
+
+8. Delete Existing Ingress by command:
+	kubectl delete -f ingress_webtest.yml
+
+9. Create TLS Secret by command:
+	kubectl create -f ingress_webtest_tls_secret_webtest1.yml
+	kubectl create -f ingress_webtest_tls_secret_webtest2.yml
+
+10. Create ingress for TLS by command:
+	kubectl create -f ingress_webtest_tls.yml
+	kubectl get ing/ingresswebtesttls -o wide
+	kubectl describe ing/ingresswebtesttls
+
+11. Test access website by browser:
+	curl https://webtest1.kuberneteslabthailand.com
+	curl https://webtest2.kuberneteslabthailand.com

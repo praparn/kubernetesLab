@@ -1,0 +1,87 @@
+Instruction for Workshop 2.3 Orchestrator Assignment:
+Note: This instruction will demonstration for assign pods to node with several constrain:
+====================================================
+Lab Description:
+Label: storage					Machine name		Roles:						IP Address:
+M2								kubernetes-ms		Master						192.168.99.200
+SSD								kubernetes-1		NodePort					192.168.99.201
+SAS								kubernetes-2		NodePort					192.168.99.202
+===================================================
+Part 1: nodeSelector:
+1. (Client Machine) Start Gcloud Cluster by command (If stop):
+	gcloud compute instances start kubernetes-1 kubernetes-2 kubernetes-ms -q
+
+2. (Client Machine) SCP file test by command:
+	gcloud compute scp *.yml kubernetes-ms:/home/praparn/
+
+3. (kubernetes-ms) Add Label by command:
+	gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-ms"
+	kubectl label nodes kubernetes-ms storage=M2
+	kubectl label nodes kubernetes-1 storage=SSD
+	kubectl label nodes kubernetes-2 storage=SAS
+
+4. (kubernetes-ms) Create Pods by command:
+	kubectl create -f webtest_pod_nodeselector.yml
+
+5. (kubernetes-ms) Monitor Pods location by command:
+	kubectl get pods -o wide
+	kubectl describe pods/webtest
+
+6. (kubernetes-ms) Delete Pods by command:
+	kubectl delete -f webtest_pod_nodeselector.yml
+
+Part 2: Interlude:
+1. (kubernetes-ms) Create Pods by command:
+	kubectl create -f webtest_pod_interlude.yml
+
+2. (kubernetes-ms) Monitor Pods location by command:
+	kubectl get pods -o wide
+	kubectl describe pods/webtest
+
+3. (kubernetes-ms) Delete Pods by command:
+	kubectl delete -f webtest_pod_interlude.yml
+
+Part 3: Affinity (Node):
+1. (kubernetes-ms) Create Pods by command:
+	kubectl create -f webtest_pod_affinity.yml
+
+2. (kubernetes-ms) Monitor Pods location by command:
+	kubectl get pods -o wide
+	kubectl describe pods/webtest
+
+Part 4: Inter-Pod Affinity and Anti-affinity:
+1. (kubernetes-ms) Create Pods by command:
+	kubectl create -f webtest_pod_affinity_topokey.yml
+
+
+2. (kubernetes-ms) Monitor Pods location by command:
+	kubectl get pods -o wide
+	kubectl describe pods/webtest2
+
+3. (kubernetes-ms) Delete Pods by command:
+	kubectl delete -f webtest_pod_affinity_topokey.yml
+	kubectl delete -f webtest_pod_affinity.yml
+
+
+Part 5: Taint and Tolerations
+1. (kubeserve-ms) Set Taint on node kubernetes-1 for admin operate by command:
+	kubectl taint nodes kubernetes-1 dedicated=admin:NoSchedule
+
+2. (kubernetes-ms) Create Pods by command:
+	kubectl create -f webtest_pod_interlude.yml
+
+3. (kubernetes-ms) Monitor Pods location by command:
+	kubectl get pods -o wide
+	kubectl describe pods/webtest
+	kubectl delete -f webtest_pod_interlude.yml
+
+4. (kubernetes-ms) Create Tolerations Pods by command:
+	kubectl create -f webtest_pod_taint.yml
+
+5. (kubernetes-ms) Monitor Pods location by command:
+	kubectl get pods -o wide
+	kubectl describe pods/webtest
+
+6. (kubernetes-ms) Delete and Clear Taint by command:
+	kubectl delete -f webtest_pod_taint.yml
+	kubectl taint nodes kubernetes-1 dedicated:NoSchedule-

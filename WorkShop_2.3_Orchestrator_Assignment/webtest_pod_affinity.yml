@@ -1,0 +1,34 @@
+apiVersion: "v1"
+kind: Pod
+metadata:
+  name: webtest
+  labels:
+    name: web
+    owner: Praparn_L
+    version: "1.0"
+    module: WebServer
+    environment: development
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: beta.kubernetes.io/os
+            operator: In #In, NotIn, Exists, DoesNotExist, Gt, Lt
+            values:
+            - linux
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: storage
+            operator: In
+            values:
+            - SSD
+  containers:
+    - name: webtest
+      image: labdocker/cluster:webservicelite
+      ports:
+        - containerPort: 5000
+          protocol: TCP
