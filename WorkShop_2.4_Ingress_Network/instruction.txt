@@ -1,4 +1,4 @@
-Instruction for Workshop 2.1 Ingress Network:
+Instruction for Workshop 2.4 Ingress Network:
 Note: This instruction will start lab for kubernetes for ingress workshop
 --------------------------------------------------------------------------
 0. Enable NGINX addon for ingress by command:
@@ -66,3 +66,11 @@ _L,version=1.0
 11. Test access website by browser:
 	curl https://webtest1.kuberneteslabthailand.com
 	curl https://webtest2.kuberneteslabthailand.com
+
+12. Clean Up Lab:
+	kubectl delete -f ingress_webtest_tls.yml
+	kubectl delete -f ingress_webtest_tls_secret_webtest1.yml
+	kubectl delete -f ingress_webtest_tls_secret_webtest2.yml
+	kubectl delete -f webtest_deploy.yml
+	kubectl delete -f webtest_deploy2.yml
+	kubectl delete deployment/curl

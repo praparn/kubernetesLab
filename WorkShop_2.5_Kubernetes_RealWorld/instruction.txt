@@ -1,4 +1,4 @@
-Instruction for Workshop 2.2 Kubernetes in RealWorld:
+Instruction for Workshop 2.5 Kubernetes in RealWorld:
 Note: This instruction will start lab for kubernetes for real workshop:
 ====================================================
 Lab Description:
@@ -16,5 +16,4 @@ Password: kubeadmin
 2. Prepare machine for lab.
 
 	2.1 In Case of Gcloud: Please follow Instruction "instruction_gcloud"
-	2.2 In Case of DigitalOcean: Please follw Instruction "instruction_digitalocean"
-	2.3 In Case of Other Cloud: Please setup machine and install docker/kubelet/kubeadm as reference: https://kubernetes.io/docs/setup/independent/install-kubeadm/
+	2.2 In Case of Other Cloud: Please setup machine and install docker/kubelet/kubeadm as reference: https://kubernetes.io/docs/setup/independent/install-kubeadm/

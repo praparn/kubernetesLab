@@ -1,4 +1,4 @@
-Instruction for Workshop 2.3 Orchestrator Assignment:
+Instruction for Workshop 2.6 Orchestrator Assignment:
 Note: This instruction will demonstration for assign pods to node with several constrain:
 ====================================================
 Lab Description:

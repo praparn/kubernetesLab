@@ -1,4 +1,4 @@
-Instruction for Workshop 1.7:
+Instruction for Workshop 2.3:
 Note: This instruction will demonstrate about how to track log and monitor:
 ====================================================
 

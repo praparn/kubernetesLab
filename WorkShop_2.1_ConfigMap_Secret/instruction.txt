@@ -1,4 +1,4 @@
-Instruction for Workshop 1.6:
+Instruction for Workshop 2.1:
 Note: This instruction will demonstrate about how to ConfigMap and Secret on Microservice:
 ====================================================
 

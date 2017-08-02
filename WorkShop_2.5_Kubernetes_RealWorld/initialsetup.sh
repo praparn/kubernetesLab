@@ -13,10 +13,13 @@ sudo add-apt-repository \
    $(lsb_release -cs) \
    stable"
 sudo apt-get update
-sudo apt-get -y install docker-ce
+sudo apt-get -y install docker-ce 
+sudo apt-get -y install glusterfs-server
+sudo apt-get -y install attr
 sudo groupadd docker
 sudo usermod -aG docker $USER
 sudo systemctl enable docker
+sudo systemctl enable glusterfs-server
 
 #Install Kubernetes Base
 curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl

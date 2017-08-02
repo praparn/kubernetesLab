@@ -1,4 +1,4 @@
-Instruction for Workshop 2.2 Kubernetes in RealWorld:
+Instruction for Workshop 2.5 Kubernetes in RealWorld:
 Note: This instruction will start lab for kubernetes for real workshop:
 ====================================================
 Lab Description:
@@ -43,19 +43,19 @@ gcloud compute scp ./initialsetup.sh kubernetes-1:/home/praparn/initialsetup.sh
 gcloud compute scp ./initialsetup.sh kubernetes-2:/home/praparn/initialsetup.sh
 
 6. Open ssh (Windows by puttty) with 3 session:
-gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-ms"
-gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-1"
-gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-2"
+gcloud compute ssh "kubernetes-ms"
+gcloud compute ssh "kubernetes-1"
+gcloud compute ssh "kubernetes-2"
 
 7. For each node initial installation by command:
 sudo apt-get update
-chmod +x /home/praparn/initialsetup.sh
-/home/praparn/initialsetup.sh
+chmod +x ./initialsetup.sh
+./initialsetup.sh
 
 ******Logoff/Logon all node again*****
-gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-ms"
-gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-1"
-gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-2"
+gcloud compute ssh "kubernetes-ms"
+gcloud compute ssh "kubernetes-1"
+gcloud compute ssh "kubernetes-2"
 **************************************
 
 8. (kubernetes-ms) initial cluster by command:
