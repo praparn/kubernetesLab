@@ -1,0 +1,228 @@
+Instruction for Workshop 2.5 Kubernetes in RealWorld:
+Note: This instruction will start lab for kubernetes for real workshop:
+====================================================
+Lab Description:
+VMName:							Machine name		Roles:						IP Address:
+ubuntumaster					ubuntumaster		Master						192.168.99.200
+ubuntunode1						ubuntunode1			NodePort					192.168.99.201
+ubuntunode2						ubuntunode2			NodePort					192.168.99.202
+===================================================
+Username: kubeadmin	
+Password: P@ssw0rd
+===================================================
+Part 0: Import VBOXSET to oracle virtualbox
+===================================================
+sudo iptables -P FORWARD ACCEPT
+===================================================
+Part 1: Setup Docker and Kubernetest Binary: (Apply all node)
+===================================================
+1. Start virtualbox guest for all environment by command:
+    vboxmanage snapshot ubuntumaster take base_docker_kubenetes
+    vboxmanage snapshot ubuntunode1 take base_docker_kubenetes
+    vboxmanage snapshot ubuntunode2 take base_docker_kubenetes
+    vboxmanage startvm ubuntumaster --type headless
+    vboxmanage startvm ubuntunode1 --type headless
+    vboxmanage startvm ubuntunode2 --type headless
+
+    *Remark: If any step was fail and you like to revert to this point in time please kindly run command below:
+        vboxmanage controlvm ubuntumaster poweroff
+        vboxmanage controlvm ubuntunode1 poweroff
+        vboxmanage controlvm ubuntunode2 poweroff   
+        vboxmanage snapshot ubuntumaster restore base_docker_kubenetes
+        vboxmanage snapshot ubuntunode1 restore base_docker_kubenetes
+        vboxmanage snapshot ubuntunode2 restore base_docker_kubenetes
+        vboxmanage startvm ubuntumaster --type headless
+        vboxmanage startvm ubuntunode1 --type headless
+        vboxmanage startvm ubuntunode2 --type headless
+
+2. SSH/Putty to all virtualbox for access:
+    ubuntumaster (192.168.99.200)
+    ubuntunode1 (192.168.99.201)
+    ubuntunode2 (192.168.99.202)
+
+===================================================
+Part 2: Initial Kubernetes Cluster
+===================================================
+1. (ubuntumaster) initial cluster by command:
+	sudo su -
+	kubeadm init --kubernetes-version=v1.7.0 --pod-network-cidr=10.244.0.0/16 --token 8c2350.f55343444a6ffc46 --apiserver-advertise-address=192.168.99.200
+	exit
+
+	*Remark: output of this command will generate token that need to keep:
+	-------------------------------------------------
+	Sample Output:
+	-------------------------------------------------
+	[kubeadm] WARNING: kubeadm is in beta, please do not use it for production clusters.
+	[init] Using Kubernetes version: v1.7.0
+	[init] Using Authorization modes: [Node RBAC]
+	[preflight] Running pre-flight checks
+	[preflight] WARNING: docker version is greater than the most recently validated version. Docker version: 17.06.0-ce. Max validated version: 1.12
+	[certificates] Generated CA certificate and key.
+	[certificates] Generated API server certificate and key.
+	[certificates] API Server serving cert is signed for DNS names [kubeserve-ms kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.99.200]
+	[certificates] Generated API server kubelet client certificate and key.
+	[certificates] Generated service account token signing key and public key.
+	[certificates] Generated front-proxy CA certificate and key.
+	[certificates] Generated front-proxy client certificate and key.
+	[certificates] Valid certificates and keys now exist in "/etc/kubernetes/pki"
+	[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/admin.conf"
+	[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/kubelet.conf"
+	[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/controller-manager.conf"
+	[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/scheduler.conf"
+	[apiclient] Created API client, waiting for the control plane to become ready
+	[apiclient] All control plane components are healthy after 64.501528 seconds
+	[token] Using token: b2aa8c.e6d1e0a724c3f50e
+	[apiconfig] Created RBAC rules
+	[addons] Applied essential addon: kube-proxy
+	[addons] Applied essential addon: kube-dns
+
+	Your Kubernetes master has initialized successfully!
+
+	To start using your cluster, you need to run (as a regular user):
+
+	  mkdir -p $HOME/.kube
+	  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+	  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+	You should now deploy a pod network to the cluster.
+	Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+	  http://kubernetes.io/docs/admin/addons/
+
+	You can now join any number of machines by running the following on each node
+	as root:
+
+	  kubeadm join --token 8c2350.f55343444a6ffc46 192.168.99.200:6443
+	-------------------------------------------------
+2. (ubuntumaster) Setup run cluster system by command (Regular User):
+		  mkdir -p $HOME/.kube
+		  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+		  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+4. (ubuntumaster) Create WeaveNet net plugin for network for cluster by command:
+	export kubever=$(kubectl version | base64 | tr -d '\n')
+	kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+	
+5. (ubuntumaster) Check master readyness and dns by command (Take 5 - 10 min):
+	kubectl get pods --all-namespaces
+	kubectl describe pods <kube-dns name> --namespace kube-system
+	
+	-------------------------------------------------
+	Sample Output
+	-------------------------------------------------
+NAMESPACE     NAME                                   READY     STATUS    RESTARTS   AGE
+kube-system   etcd-ubuntumaster                      1/1       Running   0          38m
+kube-system   kube-apiserver-ubuntumaster            1/1       Running   0          38m
+kube-system   kube-controller-manager-ubuntumaster   1/1       Running   0          38m
+kube-system   kube-dns-2425271678-hh0br              3/3       Running   0          43m
+kube-system   kube-flannel-ds-738kk                  1/1       Running   0          13m
+kube-system   kube-proxy-tf8pm                       1/1       Running   0          43m
+kube-system   kube-scheduler-ubuntumaster            1/1       Running   0          38m
+	-------------------------------------------------
+6. (ubuntumaster) Install dashboard by command:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl get pods --all-namespaces
+   
+7. (ubuntumaster) Grant administrator authorize by command:
+	16.1: SCP file dashboard-admin.yml to ubuntumaster with scp or WINSCP:
+        scp ./dashboard-admin.yaml kubeadmin@192.168.99.200:/home/kubeadmin/dashboard-admin.yaml
+	16.2: kubectl create -f dashboard-admin.yaml
+
+8. (ubuntumaster) Open dashboard by command:
+kubectl proxy --address 192.168.99.200 --accept-hosts '.*'
+
+9. (local) Open browser by command
+http://192.168.99.200:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+
+10. (ubuntunode1),(ubuntunode2) ssh and join to cluster by command:
+	sudo su -
+    kubeadm join --token 8c2350.f55343444a6ffc46 192.168.99.200:6443
+	exit
+
+	-------------------------------------------------
+	Sample Output
+	-------------------------------------------------
+[kubeadm] WARNING: kubeadm is in beta, please do not use it for production clusters.
+[preflight] Running pre-flight checks
+[preflight] Some fatal errors occurred:
+	user is not running as root
+[preflight] If you know what you are doing, you can skip pre-flight checks with `--skip-preflight-checks`
+kubeadmin@kubeserve-1:~$ sudo kubeadm join --token 78435a.f1eb236036e232ff 192.168.99.200:6443
+[sudo] password for kubeadmin:
+[kubeadm] WARNING: kubeadm is in beta, please do not use it for production clusters.
+[preflight] Running pre-flight checks
+[preflight] WARNING: docker version is greater than the most recently validated version. Docker version: 17.06.0-ce. Max validated version: 1.12
+[discovery] Trying to connect to API Server "192.168.99.200:6443"
+[discovery] Created cluster-info discovery client, requesting info from "https://192.168.99.200:6443"
+[discovery] Cluster info signature and contents are valid, will use API Server "https://192.168.99.200:6443"
+[discovery] Successfully established connection with API Server "192.168.99.200:6443"
+[bootstrap] Detected server version: v1.7.0
+[bootstrap] The server supports the Certificates API (certificates.k8s.io/v1beta1)
+[csr] Created API client to obtain unique certificate for this node, generating keys and certificate signing request
+[csr] Received signed certificate from the API server, generating KubeConfig...
+[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/kubelet.conf"
+
+Node join complete:
+* Certificate signing request sent to master and response
+  received.
+* Kubelet informed of new secure connection details.
+
+Run 'kubectl get nodes' on the master to see this machine join.
+	-------------------------------------------------
+
+11. (ubuntumaster) Check Node in Cluster by command (This take 5 - 10 min):
+kubectl get nodes
+
+-------------------------------------------------
+Sample Output
+-------------------------------------------------
+NAME           STATUS    AGE       VERSION
+ubuntumaster   Ready     47m       v1.7.0
+ubuntunode1    Ready     2m        v1.7.0
+ubuntunode2    Ready     2m        v1.7.0
+-------------------------------------------------
+
+12. (ubuntumaster)Check Pods from all cluster system running by command:
+kubectl get pods --all-namespaces
+
+-------------------------------------------------
+Sample Output
+-------------------------------------------------
+NAMESPACE     NAME                                   READY     STATUS    RESTARTS   AGE
+kube-system   etcd-ubuntumaster                      1/1       Running   0          42m
+kube-system   kube-apiserver-ubuntumaster            1/1       Running   0          42m
+kube-system   kube-controller-manager-ubuntumaster   1/1       Running   0          42m
+kube-system   kube-dns-2425271678-hh0br              3/3       Running   0          47m
+kube-system   kube-flannel-ds-738kk                  1/1       Running   0          17m
+kube-system   kube-flannel-ds-8vqzx                  1/1       Running   1          2m
+kube-system   kube-flannel-ds-kk51k                  1/1       Running   0          2m
+kube-system   kube-proxy-cw698                       1/1       Running   0          2m
+kube-system   kube-proxy-jv01t                       1/1       Running   0          2m
+kube-system   kube-proxy-tf8pm                       1/1       Running   0          47m
+kube-system   kube-scheduler-ubuntumaster            1/1       Running   0          42m
+-------------------------------------------------
+13. (all node) configure iptable for forward packet from host to container by command:
+sudo iptables -P FORWARD ACCEPT
+
+14. (kubernetes-ms) Test deployment basic nginx pods by command
+kubectl run webtest --image=labdocker/nginx:latest --port=80
+kubectl get pods -o wide
+kubectl expose deployment webtest --target-port=80 --type=NodePort
+kubectl get svc -o wide
+
+15. (kubernetes-ms) Test get web inside farm by curl:
+curl http://192.168.99.200:<port>
+curl http://192.168.99.201:<port>
+curl http://192.168.99.202:<port>
+
+
+14. (kubeserve-ms) Cleanup Lab by command:
+kubectl delete deployment/webtest
+kubectl delete svc/webtest
+
+
+*Remark: In case you would like to cleanup
+vboxmanage controlvm ubuntumaster poweroff
+vboxmanage controlvm ubuntunode1 poweroff
+vboxmanage controlvm ubuntunode2 poweroff

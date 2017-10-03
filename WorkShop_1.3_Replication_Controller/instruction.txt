@@ -1,12 +1,9 @@
-Instruction for Workshop 1.3:
+Instruction for Workshop 1.3 Replication Controller:
 Note: This instruction will demonstrate about how to use RC for maintain avaliable of Pods:
 ====================================================
 
 1. Get command prompt for access folder workshop 1.3 by command :cd /xxxx/WorkShop_1.3_Replication_Controller/
-2. Workshop should contain file as below:
--rw-r--r--@ 1 praparn  staff   321B Jul  2 12:52 webtest_pod.yml
--rw-r--r--@ 1 praparn  staff   546B Jul  5 21:29 webtest_rc.yml
--rw-r--r--@ 1 praparn  staff   393B Jul  2 12:52 webtest_svc.yml
+2. Check File in Workshop Folder
 
 3. Create RC and check status by command:
 	kubectl create -f webtest_rc.yml

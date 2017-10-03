@@ -1,18 +1,12 @@
-Instruction for Workshop 2.3:
+Instruction for Workshop 2.3_Log_and_Monitoring:
 Note: This instruction will demonstrate about how to track log and monitor:
 ====================================================
 
 ====================================================
 Part1: Container Logging:
 ====================================================
-1. Get command prompt for access folder workshop 1.7 by command :cd /xxxx/WorkShop_1.7_Log_and_Monitoring
-2. Workshop should contain file as below:
--rw-r--r--@ 1 praparn  staff   832B Jul 10 08:24 databasemodule_deploy.yml
--rw-r--r--@ 1 praparn  staff   4.6K Jul 10 22:10 instruction.txt
--rw-r--r--@ 1 praparn  staff   1.2K Jul 10 08:25 webmodule_deploy.yml
-3. Enable heapster
-minikube addons enable heapster
-minikube addons open heapster
+1. Get command prompt for access folder workshop 2.3 by command :cd /xxxx/WorkShop_2.3_Log_and_Monitoring
+2. Check File on WorkShop
 
 3. Create Database Deployment by command:
 	kubectl create -f databasemodule_deploy.yml
@@ -43,3 +37,7 @@ minikube addons open heapster
 
 10. Open kubenetes dashboard by command:
 	minikube dashboard
+
+11. Cleanup lab by command:
+	kubectl delete -f databasemodule_deploy.yml
+	kubectl delete -f webmodule_deploy.yml

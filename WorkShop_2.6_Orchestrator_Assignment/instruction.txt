@@ -12,7 +12,7 @@ Part 1: nodeSelector:
 	gcloud compute instances start kubernetes-1 kubernetes-2 kubernetes-ms -q
 
 2. (Client Machine) SCP file test by command:
-	gcloud compute scp *.yml kubernetes-ms:/home/praparn/
+	gcloud compute scp *.yml kubernetes-ms:/home/<your account>/
 
 3. (kubernetes-ms) Add Label by command:
 	gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-ms"

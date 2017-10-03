@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webtest
+  labels:
+    name: web
+    owner: Praparn_L
+    version: "1.0"
+    module: WebServer
+    environment: development
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: web
+        owner: Praparn_L
+        version: "1.0"
+        module: WebServer
+        environment: development
+    spec:
+      containers:
+        - name: webtest
+          image: labdocker/cluster:webservicelite_v1
+          ports:
+          - containerPort: 5000
+            protocol: TCP
+          volumeMounts:
+            - name: nfs-share-pvc
+              mountPath: "/usr/src/app"
+      volumes:
+      - name: nfs-share-pvc
+        persistentVolumeClaim:
+          claimName: nfs-share-pvc

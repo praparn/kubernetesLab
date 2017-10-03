@@ -15,6 +15,10 @@ gcloud beta compute firewall-rules create "kubernetes-lab-rule-http" --allow tcp
 --description "KubernetesLab-FW-AllowHTTP" --direction "INGRESS" \
 --priority "1000" --network "kubernetes-lab" --source-ranges "0.0.0.0/0"
 
+gcloud beta compute firewall-rules create "kubernetes-lab-rule-cert" --allow tcp:6443 \
+--description "KubernetesLab-FW-AllowHTTP" --direction "INGRESS" \
+--priority "1000" --network "kubernetes-lab" --source-ranges "0.0.0.0/0"
+
 gcloud beta compute firewall-rules create "kubernetes-lab-rule-kubernetes" --allow tcp:30000-32767 \
 --description "KubernetesLab-FW-AllowKUBERNETES" --direction "INGRESS" \
 --priority "1000" --network "kubernetes-lab" --source-ranges "0.0.0.0/0"

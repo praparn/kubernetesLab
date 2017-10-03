@@ -3,6 +3,7 @@ Note: This instruction will start lab for kubernetes for ingress workshop
 --------------------------------------------------------------------------
 0. Enable NGINX addon for ingress by command:
 	minikube addons enable ingress
+	minikube addons list
 
 1. Create Service/Pods/Deployment for webtest1 and webtest2 by command:
 	kubectl create -f webtest_deploy.yml
@@ -64,8 +65,8 @@ _L,version=1.0
 	kubectl describe ing/ingresswebtesttls
 
 11. Test access website by browser:
-	curl https://webtest1.kuberneteslabthailand.com
-	curl https://webtest2.kuberneteslabthailand.com
+	https://webtest1.kuberneteslabthailand.com
+	https://webtest2.kuberneteslabthailand.com
 
 12. Clean Up Lab:
 	kubectl delete -f ingress_webtest_tls.yml

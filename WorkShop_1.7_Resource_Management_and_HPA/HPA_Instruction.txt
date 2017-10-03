@@ -1,0 +1,30 @@
+
+====================================================
+Part 3: HPA Configuration:
+====================================================
+0. Enable Heapster:
+minikube stop
+
+minikube start --extra-config kubelet.EnableCustomMetrics=true
+	docker run \
+	--volume=/var/run:/var/run:rw \
+	--volume=/sys:/sys:ro \
+	--volume=/var/lib/docker/:/var/lib/docker:ro \
+	--publish=8080:8080 \
+	--detach=true \
+	--name=cadvisor \
+	labdocker/cadvisor:latest
+
+3. Enable heapster
+minikube addons enable heapster
+minikube addons open heapster
+
+1. Create Namespace by command:
+	kubectl create -f webtest_deploy_hpa.yml
+
+2. Apply HPA by command:
+	kubectl autoscale -f webtest_deploy_hpa.yml --min=1 --max=10 --cpu-percent=10 
+
+3. Monitor by command:
+	kubectl get hpa
+	kubectl describe hpa/<hpa name>

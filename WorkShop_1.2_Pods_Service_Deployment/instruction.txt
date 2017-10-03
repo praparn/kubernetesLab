@@ -1,13 +1,11 @@
-Instruction for Workshop 1.2:
+Instruction for Workshop 1.2 Pods_Service_Deployment:
 ====================================================
 Part 1: Create basic Pods for single container:
 This workshop will create web Pods and simple map to outside
 ====================================================
 
 1. Get command prompt for access folder workshop 1.2 by command :cd /xxxx/WorkShop_1.2_Pods_Service_Deployment/singlecontainer
-2. Workshop should contain file as below:
--rw-r--r--@ 1 praparn  staff   321B Jul  2 12:52 webtest_pod.yml
--rw-r--r--@ 1 praparn  staff   393B Jul  2 12:52 webtest_svc.yml
+2. Check file on workshop
 
 3. Create Pods and check Pods state (Expect: Running) by command:
 	kubectl create -f webtest_pod.yml

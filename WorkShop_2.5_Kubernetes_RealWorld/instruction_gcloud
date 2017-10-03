@@ -32,13 +32,14 @@ gcloud compute instances list
 Sample Output
 ------------------------------------
 NAME           ZONE          MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP     EXTERNAL_IP      STATUS
-kubernetes-1   asia-east1-a  n1-standard-1               192.168.99.201  104.199.230.125  RUNNING
-kubernetes-2   asia-east1-a  n1-standard-1               192.168.99.202  35.185.141.171   RUNNING
-kubernetes-ms  asia-east1-a  n1-standard-1               192.168.99.200  35.185.168.113   RUNNING
+kubernetes-1   asia-east1-a  n1-standard-1               192.168.99.201  35.194.212.50    RUNNING
+kubernetes-2   asia-east1-a  n1-standard-1               192.168.99.202  104.199.190.131  RUNNING
+kubernetes-ms  asia-east1-a  n1-standard-1               192.168.99.200  104.155.198.38   RUNNING
 ------------------------------------
 
 5. Copy script from local to googlecloud:
 gcloud compute scp ./initialsetup.sh kubernetes-ms:/home/praparn/initialsetup.sh
+gcloud compute scp ./dashboard-admin.yaml kubernetes-ms:/home/praparn/dashboard-admin.yaml
 gcloud compute scp ./initialsetup.sh kubernetes-1:/home/praparn/initialsetup.sh
 gcloud compute scp ./initialsetup.sh kubernetes-2:/home/praparn/initialsetup.sh
 
@@ -58,9 +59,16 @@ gcloud compute ssh "kubernetes-1"
 gcloud compute ssh "kubernetes-2"
 **************************************
 
-8. (kubernetes-ms) initial cluster by command:
+
+8. For each node modify iptables by command:
+	8.0: sudo su -
+	8.1: iptables-save > /etc/iptables.conf
+	8.2: vi /etc/iptables.conf ==> change ":FORWARD DROP [0:0]" to ":FORWARD ACCEPT [0:0]"
+	8.3: iptables-restore < /etc/iptables.conf
+	
+9. (kubernetes-ms) initial cluster by command:
 	sudo su -
-	kubeadm init --kubernetes-version=v1.7.0 --pod-network-cidr=10.244.0.0/16 --token 8c2350.f55343444a6ffc46
+	kubeadm init --kubernetes-version=v1.7.0 --pod-network-cidr=10.244.0.0/16 --token 8c2350.f55343444a6ffc46 --apiserver-cert-extra-sans <public ip>
 	exit
 
 	*Remark: output of this command will generate token that need to keep:
@@ -106,20 +114,22 @@ gcloud compute ssh "kubernetes-2"
 	You can now join any number of machines by running the following on each node
 	as root:
 
-	 kubeadm join --token 78435a.f1eb236036e232ff 192.168.99.200:6443
+	 kubeadm join --token 8c2350.f55343444a6ffc46 192.168.99.200:6443
 	-------------------------------------------------
-6. Setup run cluster system by command (Regular User):
+10. (kubernetes-ms) Setup run cluster system by command (Regular User):
 		  mkdir -p $HOME/.kube
 		  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 		  sudo chown $(id -u):$(id -g) $HOME/.kube/config
 		  kubectl taint nodes --all node-role.kubernetes.io/master-
 
-7. Create weave net plugin for network (CNI) for cluster by command:
-	kubectl apply -n kube-system -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+11. (local) SCP Certificate from Google Cloud to Local:
+	gcloud compute scp kubernetes-ms:/home/<home directory>/.kube/config adminconfig.conf
 
+12. (kubernetes-ms) Create flannel net plugin for network for cluster by command:
+	kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+	kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel-rbac.yml
 
-
-8. Check master readyness and dns by command (Take 5 - 10 min):
+13. (kubernetes-ms) Check master readyness and dns by command (Take 5 - 10 min):
 	kubectl get pods --all-namespaces
 	kubectl describe pods <kube-dns name> --namespace kube-system
 
@@ -135,13 +145,28 @@ kube-system   kube-flannel-ds-n9ws7                  2/2       Running   0      
 kube-system   kube-proxy-vzswv                       1/1       Running   0          2m
 kube-system   kube-scheduler-kubeserve-ms            1/1       Running   0          2m
 	-------------------------------------------------
+14. (local) Edit file adminconfig.conf for change ip address from private to public ip:
+vi adminconfig.conf
 
+15. (local) Configure local kubectl for access and command cluster:
+kubectl --kubeconfig ./adminconfig.conf get nodes
+kubectl --kubeconfig ./adminconfig.conf get svc
 
-9. (kubernetes-1),(kubernetes-2) ssh and join to cluster by command:
+16. (kubenetes-ms) Install dashboard by command:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl create -f dashboard-admin.yaml
+kubectl get pods --all-namespaces
+
+17. (local) Open dashboard by command:
+kubectl --kubeconfig ./adminconfig.conf proxy --accept-hosts '.*'
+
+18. (local) Open browser by command
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+19. (kubernetes-1),(kubernetes-2) ssh and join to cluster by command:
 	sudo su -
-	kubeadm --token 8c2350.f55343444a6ffc46 join 192.168.99.200:6443
+	kubeadm join --token 8c2350.f55343444a6ffc46 192.168.99.200:6443
 	exit
-
 	-------------------------------------------------
 	Sample Output
 	-------------------------------------------------
@@ -173,7 +198,7 @@ Node join complete:
 Run 'kubectl get nodes' on the master to see this machine join.
 	-------------------------------------------------
 
-10. Check Node in Cluster by command (This take 5 - 10 min):
+20. (kubernetes-ms) Check Node in Cluster by command (This take 5 - 10 min):
 kubectl get node
 
 -------------------------------------------------
@@ -185,7 +210,7 @@ kubeserve-2    Ready     3m        v1.7.0
 kubeserve-ms   Ready     19m       v1.7.0
 -------------------------------------------------
 
-11. (kubernetes-ms)Check Pods from all cluster system running by command:
+21. (kubernetes-ms)Check Pods from all cluster system running by command:
 kubectl get pods --all-namespaces
 
 -------------------------------------------------
@@ -204,18 +229,21 @@ kube-system   kube-proxy-qzfdr                       1/1       Running   0      
 kube-system   kube-proxy-vzswv                       1/1       Running   0          11m
 kube-system   kube-scheduler-kubeserve-ms            1/1       Running   0          11m
 -------------------------------------------------
-12. (kubernetes-ms) Test deployment basic nginx pods by command
+22. (all node) configure iptable for forward packet from host to container by command:
+sudo iptables -P FORWARD ACCEPT
+
+23. (kubernetes-ms) Test deployment basic nginx pods by command
 kubectl run webtest --image=labdocker/nginx:latest --port=80
 kubectl get pods -o wide
 kubectl expose deployment webtest --target-port=80 --type=NodePort
 kubectl get svc -o wide
 
-13. (kubernetes-ms) Test get web inside farm by curl:
+24. (kubernetes-ms) Test get web inside farm by curl:
 curl http://192.168.99.200:<port>
 curl http://192.168.99.201:<port>
 curl http://192.168.99.202:<port>
 
-14. (Client Machine) Test get web outside farm by curl or browser:
+25. (Client Machine) Test get web outside farm by curl or browser:
 gcloud compute instances list
 ------------------------------------
 Sample Output
@@ -230,6 +258,6 @@ curl http://<External IP of MS>:<port>
 curl http://<External IP of MS>:<port>
 curl http://<External IP of MS>:<port>
 
-15. (kubeserve-ms) Cleanup Lab by command:
+26. (kubeserve-ms) Cleanup Lab by command:
 kubectl delete deployment/webtest
 kubectl delete svc/webtest

@@ -1,0 +1,44 @@
+Instruction for Workshop 1.5 Vo.ume:
+Note: This instruction will demonstrate about how to manage use Volume:
+====================================================
+Volume by HostPath:
+====================================================
+1. Get command prompt for access folder workshop 1.5 by command :cd /xxxx/WorkShop_1.5_Volume
+2. Check file on WorkShop
+
+3. Create Deployment for cAdvisor by command:
+	kubectl create -f cadvisor_deploy.yml
+
+4. Check result on web browser:
+	http://<ip of minikube>:
+
+5. Create file via Container by command:
+	kubectl exec -it <pods name> sh
+  touch /var/lib/docker/test_cAdvisor.txt
+  exit
+
+6. Open another shell for access minikube:
+  minikube ssh
+  sudo su -
+  ls /var/lib/docker ==> check for "test_cAdvisor.txt"
+
+7. Create Another Deployment with Same:
+kubectl create -f webtest_pod.yml
+
+8. Access "WebTest Pods" and Check/Create file by command:
+	kubectl exec -it webtest sh
+  ls -lh /temp
+  touch /temp/test_webtest.txt
+  exit
+  
+9. Access "cAdvisor Pods" and Check/Delte file by command:
+	kubectl exec -it <pods name> sh
+  ls -lh /var/lib/docker
+  rm /var/lib/docker/test_webtest.txt
+  rm /var/lib/docker/test_cAdvisor.txt
+  exit
+
+
+10. Cleanup by command:
+	kubectl delete -f webtest_pod.yml
+  kubectl delete -f cadvisor_deploy.yml

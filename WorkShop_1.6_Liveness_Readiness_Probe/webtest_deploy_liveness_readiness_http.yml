@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webtest
+  labels:
+    name: web
+    owner: Praparn_L
+    version: "1.0"
+    module: WebServer
+    environment: development
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: web
+        owner: Praparn_L
+        version: "1.0"
+        module: WebServer
+        environment: development
+    spec:
+      containers:
+        - name: webtest
+          image: labdocker/cluster:webservicelite_v1
+          ports:
+          - name: webservice
+            containerPort: 5000
+            protocol: TCP
+          readinessProbe:
+            httpGet:
+              # Optional "host: my-host" for set specific ip of Pods
+              # Optional "scheme: HTTPS"
+              #schema: HTTPS
+              path: /
+              port: webservice
+              httpHeaders:
+                - name: server
+                  value: "Werkzeug/0.12.2 Python/2.7.13"
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              # Optional "host: my-host" for set specific ip of Pods
+              # Optional "scheme: HTTPS"
+              #schema: HTTPS
+              path: /
+              port: webservice
+              httpHeaders:
+                - name: server
+                  value: "Werkzeug/0.12.2 Python/2.7.13"
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3

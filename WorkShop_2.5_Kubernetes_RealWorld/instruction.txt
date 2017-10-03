@@ -1,19 +1,7 @@
 Instruction for Workshop 2.5 Kubernetes in RealWorld:
 Note: This instruction will start lab for kubernetes for real workshop:
-====================================================
-Lab Description:
-VMName:								Machine name		Roles:						IP Address:
-Kubernetes_MS					kubeserve-ms		Master						192.168.99.200
-Kubernetes_1					kubeserve-1			NodePort					192.168.99.201
-Kubernetes_2					kubeserve-2			NodePort					192.168.99.202
-===================================================
-Username: kubeadmin
-Password: kubeadmin
-===================================================
 
-1. Stop minikube by command: minikube stop
+1. Prepare machine for lab.
 
-2. Prepare machine for lab.
-
-	2.1 In Case of Gcloud: Please follow Instruction "instruction_gcloud"
-	2.2 In Case of Other Cloud: Please setup machine and install docker/kubelet/kubeadm as reference: https://kubernetes.io/docs/setup/independent/install-kubeadm/
+	1.1 In Case of Gcloud: Please follow Instruction "instruction_gcloud"
+	1.2 In Case of BareMaterial: Please follow Instruction "instruction_baremeterial"

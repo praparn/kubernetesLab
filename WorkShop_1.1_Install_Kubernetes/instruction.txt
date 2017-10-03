@@ -8,6 +8,6 @@ Workshop's Resource:
 
 2.After finished then run below command for check readiness of kubenetes's machine (Command prompt)
 	2.1 kubectl get nodes 				==> check nodes readiness
-	2.2 kubectl get cs 						==> check cluster's status
-	2.3 kubectl get pods					==> check pod avaliable
-	2.4 minikube ip 							==> check ip of kubernetes's machine
+	2.2 kubectl get cs 					==> check cluster's status
+	2.3 kubectl get pods				==> check pod avaliable
+	2.4 minikube ip 					==> check ip of kubernetes's machine

@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cadvisor
+  labels:
+    name: cadvisor
+    owner: Praparn_L
+    version: "1.0"
+    module: Monitor
+    environment: development
+spec:
+  selector:
+    name: cadvisor
+    owner: Praparn_L
+    version: "1.0"
+    module: Monitor
+    environment: development
+
+  type: NodePort
+  ports:
+   - port: 8080
+     name: http
+     targetPort: 8080
+     protocol: TCP
+     nodePort: 31000
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cadvisor
+  labels:
+    name: cadvisor
+    owner: Praparn_L
+    version: "1.0"
+    module: Monitor
+    environment: development
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: cadvisor
+        owner: Praparn_L
+        version: "1.0"
+        module: Monitor
+        environment: development
+    spec:
+      containers:
+        - name: cadvisor
+          volumeMounts:
+          - mountPath: /var/run
+            name: volrun
+          - mountPath: /sys
+            name: volsys
+          - mountPath: /var/lib/docker/
+            name: voldocker
+          image: labdocker/cadvisor:latest
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+      volumes:
+      - name: volrun
+        hostPath:
+          path: /var/run
+      - name: volsys
+        hostPath:
+          path: /sys
+      - name: voldocker
+        hostPath:
+          path: /var/lib/docker/

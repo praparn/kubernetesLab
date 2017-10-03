@@ -1,0 +1,104 @@
+Instruction for Workshop 2.4 Kubernetes for Stateful Application:
+Note: This instruction will start lab for kubernetes for real workshop:
+====================================================
+Lab Description:
+VMName:							Machine name		Roles:						IP Address:
+kubernetes-ms					kubernetes-ms		Master						192.168.99.200
+kubernetes-1					kubernetes-1		NodePort					192.168.99.201
+kubernetes-2					kubernetes-2		NodePort					192.168.99.202
+===================================================
+
+===================================================
+Part 1: Initial NFS ShareFile on Ubuntu
+===================================================
+1. (All Node) Install Component for NFS ShareFile by command:
+sudo apt-get install nfs-kernel-server
+sudo apt-get install nfs-common
+
+2. (kubernetes-ms) Create new directory for share and change permission for allow all operate by command:
+sudo mkdir -p /var/nfsshare
+sudo chmod 777 /var/nfsshare
+sudo chown nobody:nogroup /var/nfsshare
+
+3. (kubernetes-ms) Edit permission for NFS on /etc/exports:
+sudo vi /etc/exports ==> Add new line below
+---------------------------------------------------
+/var/nfsshare    192.168.99.0/24(rw,sync,no_subtree_check,no_root_squash)
+---------------------------------------------------
+
+4. (kubernetes-ms) Update NFS table for announce share and start nfs server by command:
+sudo exportfs -a
+sudo service nfs-kernel-server start
+
+5. (All Node) Test access share file:
+sudo mkdir -p /mnt/nfs_share
+sudo mount -t nfs 192.168.99.200:/var/nfsshare /mnt/nfs_share
+df -kh
+
+6. (All node) Test create file and check  by command:
+(kubernetes-ms): touch /mnt/nfs_share/test_ms
+(kubernetes-1): touch /mnt/nfs_share/test_1
+(kubernetes-2): touch /mnt/nfs_share/test_2
+(any node): ls -lh /mnt/nfs_share
+(any node): rm /mnt/nfs_share/*
+
+===================================================
+Part 2: Integrate with Persistency Volume (PV),  and Persistency Volume Claim (PVC)
+===================================================
+1. (local) Copy nessesary sourcecode to server by command:
+gcloud compute scp *.py *.yml kubernetes-ms:/home/<directory name>/
+gcloud compute ssh kubernetes-ms 
+
+2. (kubernetes-ms) Copy sourcecode to NFS/Create Storage Class/ Volume (PV/PVC)/Deployment by command:
+cp mainlite.py /mnt/nfs_share/
+kubectl create -f nfs_pv.yml
+kubectl create -f nfs_pvc.yml
+kubectl get pv
+kubectl describe pv/nfs-share-pv
+kubectl get pvc
+kubectl describe pvc/nfs-share-pvc
+
+3. (kubernetes-ms) Create Deployment and Persistency Volume Claim (PVC) by command:
+kubectl create -f nfs_webtest_deploy.yml
+kubectl create -f nfs_webtest_svc.yml
+kubectl get deployment
+kubectl get svc
+
+4. (kubernetes-ms) Create Deployment for Pod with mounth volume by command:
+kubectl create -f ./gluster_deploy.yml
+kubectl get deployment/webtest
+kubectl get svc/webtest
+kubectl get pods -o wide
+kubectl describe pods/<pods name>
+
+5. (kubernetes-ms) Access to pods by kubectl or docker exec and check mount volume by command:
+kubectl exec -it <pods name> sh
+or
+docker exec -it <container id> sh
+
+6. (kubernetes-ms:inside pods) Check volume from NFS inside container and test create file by command:
+df -kh ==> check /usr/src/app 
+exit
+
+7. (kubernetes-ms) Access to all pods for check/create file by command:
+    kubectl exec -it <pods name> sh (Pods: 1)
+    touch /usr/src/app/test-Pods1
+    ls -lh /usr/src/app
+    exit
+
+    kubectl exec -it <pods name> sh (Pods: 2)
+    touch /usr/src/app/test-Pods2
+    ls -lh /usr/src/app
+    exit
+
+    kubectl exec -it <pods name> sh (Pods: 3)
+    touch /usr/src/app/test-Pods3
+    ls -lh /usr/src/app
+    rm /usr/src/app/test-Pods*
+    exit
+
+8. (kubernetes-ms) Clean Up file and deployment by command:
+    kubectl delete -f nfs_webtest_deploy.yml
+    kubectl delete -f nfs_webtest_svc.yml
+    kubectl delete -f nfs_pvc.yml
+    kubectl delete -f nfs_pv.yml

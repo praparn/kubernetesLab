@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: linenotify
-        image: labdocker/linenotify
+        image: labdocker/linenotify:onetime
         env:
         - name: TITLE
           value: "BOT:Praparn L."
@@ -26,7 +26,7 @@ spec:
         - name: MEM_HIGH
           value: "20"
         - name: SH_OS
-          value: "N"
+          value: "Y"
         - name: TOKEN
           value: "EIeqyillzkzpaCo1ROrebZTcGbIyzDZHpOjcdd0t6CX"
       restartPolicy: Never

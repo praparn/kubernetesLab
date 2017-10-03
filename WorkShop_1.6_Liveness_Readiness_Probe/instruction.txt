@@ -1,0 +1,149 @@
+Instruction for Workshop 1.6 liveness_readiness:
+Note: This instruction will demonstrate about how to check liveness_readiness probe for check pods health
+
+====================================================
+Part 1: Exec Probe
+This workshop will use execute some command on container for probe
+====================================================
+
+1. Create Deployment and check status by command:
+	kubectl create -f webtest_deploy_liveness_readiness_exec.yml
+	kubectl create -f webtest_svc.yml
+	kubectl get svc/webtest
+	kubectl get deployment/webtest
+	kubectl describe deployment/webtest
+	kubectl get rs/<rs name>
+	kubectl describe rs/<rs name>
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+2. Test access browser/curl: http://<ip of minikube>:32500
+
+3. Access to container on pods and try to delete the file "main.py"
+	kubectl exec -it <pods name> sh -c webtest
+	rm main.py
+	exit	
+
+4. Check status of Pods by command:
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+5. Access to container on pods and try to delete the file "main.py"
+	kubectl exec -it <pods name> sh -c webtest
+	ls -lh
+	exit
+
+6. Cleanup Lab by command:
+	kubectl delete -f webtest_deploy_liveness_readiness_exec.yml
+
+
+====================================================
+Part 2: TCPSocket Probe
+This workshop will use TCPSocket some command on container for probe
+====================================================
+1. Create Deployment and check status by command:
+	kubectl create -f webtest_deploy_liveness_readiness_port.yml 
+	kubectl get deployment/webtest
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+2. Test access browser/curl: http://<ip of minikube>:32500
+
+3. Edit file webtest_deploy_liveness_readiness_port.yml to change monitor port from 5000 to 3000
+
+4. Apply new configuration by command:
+	kubectl apply -f webtest_deploy_liveness_readiness_port.yml 
+
+5. Check status of pods by command (3 -5 min):
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+6. Edit file webtest_deploy_liveness_readiness_port.yml to change monitor port from 3000 to 5000
+
+7. Apply new configuration by command:
+	kubectl apply -f webtest_deploy_liveness_readiness_port.yml 
+
+8. Check status of pods by command (3 -5 min):
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+9. Cleanup Lab by command:
+	kubectl delete -f webtest_deploy_liveness_readiness_port.yml
+
+
+====================================================
+Part 3: HTTPGet Probe
+This workshop will use http get request some command on container for probe
+====================================================
+1. Create Deployment and check status by command:
+	kubectl create -f webtest_deploy_liveness_readiness_http.yml 
+	kubectl get deployment/webtest
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+2. Test access browser/curl: http://<ip of minikube>:32500
+
+3. Edit file webtest_deploy_liveness_readiness_http.yml to change httpHeaders remove ""
+
+4. Apply new configuration by command:
+	kubectl apply -f webtest_deploy_liveness_readiness_http.yml 
+
+5. Check status of pods by command (3 -5 min):
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+6. Edit file webtest_deploy_liveness_readiness_port.yml to change httpHeaders add ""
+
+7. Apply new configuration by command:
+	kubectl apply -f webtest_deploy_liveness_readiness_http.yml 
+
+8. Check status of pods by command (3 -5 min):
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+9. Cleanup Lab by command:
+	kubectl delete -f webtest_deploy_liveness_readiness_http.yml
+
+====================================================
+Part 4: Exec Probe for Readiness Probe
+This workshop will use execute some command on container for probe
+====================================================
+
+1. Create Deployment and check status by command:
+	kubectl create -f webtest_deploy_readiness_1.yml
+	kubectl create -f webtest_deploy_readiness_2.yml
+	kubectl get deployment/webtest1
+	kubectl describe deployment/webtest1
+	kubectl get deployment/webtest2
+	kubectl describe deployment/webtest2
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+2. Test access browser/curl: http://<ip of minikube>:32500 (5 - 6 Time)
+
+3. Access to container on pods (Deployment webtest1) and try to delete the file "main.py"
+	kubectl exec -it <pods name> sh -c webtest
+	rm main.py
+	exit	
+
+4. Check status of Pods (Deployment webtest1) by command:
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+5. Test access browser/curl: http://<ip of minikube>:32500 (5 - 6 Time)
+
+6. Access to container on pods (Deployment webtest1) and try to create the file "main.py"
+	kubectl exec -it <pods name> sh -c webtest
+	cp mainlite.py main.py
+	exit
+
+7. Check status of Pods (Deployment webtest1) by command:
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+8. Test access browser/curl: http://<ip of minikube>:32500 (5 - 6 Time)
+
+9. Cleanup Lab by command:
+	kubectl delete -f webtest_deploy_readiness_1.yml
+	kubectl delete -f webtest_deploy_readiness_2.yml
+	kubectl delete -f webtest_svc.yml

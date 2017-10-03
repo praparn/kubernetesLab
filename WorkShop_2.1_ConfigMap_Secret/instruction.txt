@@ -1,19 +1,12 @@
-Instruction for Workshop 2.1:
+Instruction for Workshop 2.1_ConfigMap_Secret:
 Note: This instruction will demonstrate about how to ConfigMap and Secret on Microservice:
 ====================================================
 
 ====================================================
 Part1: Container level configuration:
 ====================================================
-1. Get command prompt for access folder workshop 1.6 by command :cd /xxxx/WorkShop_1.6_ConfigMap_Secret
-2. Workshop should contain file as below:
--rw-r--r--@ 1 praparn  staff   832B Jul 10 08:24 databasemodule_deploy.yml
--rw-r--r--@ 1 praparn  staff   1.0K Jul 10 14:11 databasemodule_deploy_config.yml
--rw-r--r--@ 1 praparn  staff   300B Jul 10 08:48 databasemodule_secret.yml
--rw-r--r--@ 1 praparn  staff   5.7K Jul 10 08:01 instruction.txt
--rw-r--r--@ 1 praparn  staff   296B Jul 10 12:42 webmodule_configmap.yml
--rw-r--r--@ 1 praparn  staff   1.2K Jul 10 08:25 webmodule_deploy.yml
--rw-r--r--@ 1 praparn  staff   1.8K Jul 10 14:22 webmodule_deploy_config.yml
+1. Get command prompt for access folder workshop 2.1 by command :cd /xxxx/WorkShop_2.1_ConfigMap_Secret
+2. Check File on WorkShop
 
 3. Create Namespace by command:
 	kubectl create namespace webmicroservice
@@ -75,5 +68,5 @@ Part1: Container level configuration:
 
 14. Cleanup lab by command:
 	kubectl delete -f webmodule_deploy_config.yml --namespace=webmicroservice
-	kubectl detete -f databasemodule_deploy_config.yml --namespace=webmicroservice
+	kubectl delete -f databasemodule_deploy_config.yml --namespace=webmicroservice
 	kubectl delete namespace/webmicroservice

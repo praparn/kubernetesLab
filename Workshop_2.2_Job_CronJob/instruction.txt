@@ -1,4 +1,4 @@
-Instruction for Workshop 2.2:
+Instruction for Workshop 2.2_Job_CronJob:
 Note: This instruction will demonstrate about how to manage use job and cronjob:
 ====================================================
 Part0: Generate LINE token:
@@ -11,18 +11,14 @@ Part0: Generate LINE token:
 ====================================================
 Create Job for Monitor System via LINE:
 ====================================================
-1. Get command prompt for access folder workshop 1.6 by command :cd /xxxx/WorkShop_1.6_Job_CronJob
-2. Workshop should contain file as below:
--rw-r--r--@ 1 praparn  staff   5.2K Jul  8 21:39 instruction.txt
--rw-r--r--@ 1 praparn  staff   972B Jul  8 20:15 job.yml
--rw-r--r--@ 1 praparn  staff   515B Jul  8 20:06 cron.yml
-
+1. Get command prompt for access folder workshop 2.2 by command :cd /xxxx/WorkShop_1.6_Job_CronJob
+2. Check File on WorkShop
 3. Open job.yml file and Edit Environment (Show Information Mode):
 	        env:
         - name: TITLE
-          value: "BOT:Praparn L."								==> Input Your Name
+          value: "BOT:Praparn L."					==> Input Your Name
         - name: INTERVAL
-          value: "10000"										==> Input Time Interval in Job (ms)
+          value: "10000"									==> Input Time Interval in Job (ms)
         - name: HEAP_HIGH
           value: "40"											==> Input High Monitor HEAP %
         - name: MEM_HIGH
@@ -44,13 +40,13 @@ Create Job for Monitor System via LINE:
 
 6. Monitor Result on LINE Application:
 
-7. Stop Job by command:
-	kubectl delete -f job.yml
+7. CleanUp Job by command:
+kubectl get jobs --all-namespaces | sed '1d' | awk '{ print $2}'| while read line; do kubectl delete jobs $line; done
 
-8. Open job.yml file and Edit Environment (Show Information Mode):
+8. Open job_notify.yml file and Edit Environment (Show Information Mode):
 	        env:
         - name: TITLE
-          value: "BOT:Praparn L."					==> Input Your Name
+          value: "BOT NOTIFY:Praparn L."					==> Input Your Name
         - name: INTERVAL
           value: "10000"									==> Input Time Interval in Job (ms)
         - name: HEAP_HIGH
@@ -63,7 +59,7 @@ Create Job for Monitor System via LINE:
           value: "EIeqyillzkzpaCo1ROrebZTcGbIyzDZHpOjcdd0t6CX"	==> Input LINE TOKEN
 
 9. Create Job by command:
-	kubectl create -f job.yml
+	kubectl create -f job_notify.yml
 	kubectl get jobs -o wide
 	kubectl get pods -o wide
 
@@ -73,4 +69,4 @@ Create Job for Monitor System via LINE:
 11. Monitor Result on LINE Application:
 
 12. Delete Job by command:
-	kubectl delete -f job.yml
+kubectl get jobs --all-namespaces | sed '1d' | awk '{ print $2}'| while read line; do kubectl delete jobs $line; done

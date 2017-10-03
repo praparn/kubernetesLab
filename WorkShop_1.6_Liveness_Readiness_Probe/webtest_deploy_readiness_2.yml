@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webtest2
+  labels:
+    name: web
+    owner: Praparn_L
+    version: "1.0"
+    module: WebServer
+    environment: development
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: web
+        owner: Praparn_L
+        version: "1.0"
+        module: WebServer
+        environment: development
+    spec:
+      containers:
+        - name: webtest
+          image: labdocker/cluster:webservicelite_v1.51rc
+          ports:
+          - containerPort: 5000
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /usr/src/app/main.py
+            initialDelaySeconds: 15
+            periodSeconds: 5
