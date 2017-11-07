@@ -39,7 +39,6 @@ kubernetes-ms  asia-east1-a  n1-standard-1               192.168.99.200  35.201.
 
 5. Copy script from local to googlecloud:
 gcloud compute scp ./initialsetup.sh kubernetes-ms:/home/praparn/initialsetup.sh
-gcloud compute scp ./dashboard-admin.yaml kubernetes-ms:/home/praparn/dashboard-admin.yaml
 gcloud compute scp ./initialsetup.sh kubernetes-1:/home/praparn/initialsetup.sh
 gcloud compute scp ./initialsetup.sh kubernetes-2:/home/praparn/initialsetup.sh
 
@@ -60,7 +59,7 @@ gcloud compute ssh "kubernetes-2"
 **************************************
 
 
-8. For each node modify iptables by command:
+8. For each node modify iptables by command: 
 	8.0: sudo su -
 	8.1: iptables-save > /etc/iptables.conf
 	8.2: vi /etc/iptables.conf ==> change ":FORWARD DROP [0:0]" to ":FORWARD ACCEPT [0:0]"
@@ -154,7 +153,10 @@ kubectl --kubeconfig ./adminconfig.conf get svc
 
 16. (kubenetes-ms) Install dashboard by command:
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
-kubectl create -f dashboard-admin.yaml
+kubectl apply -f https://github.com/kubernetes/heapster/raw/master/deploy/kube-config/rbac/heapster-rbac.yaml
+kubectl apply -f https://github.com/kubernetes/heapster/raw/master/deploy/kube-config/influxdb/heapster.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/influxdb.yaml
+kubectl create clusterrolebinding insecure-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
 kubectl get pods --all-namespaces
 
 17. (local) Open dashboard by command:
@@ -199,7 +201,7 @@ Run 'kubectl get nodes' on the master to see this machine join.
 	-------------------------------------------------
 
 20. (kubernetes-ms) Check Node in Cluster by command (This take 5 - 10 min):
-kubectl get node
+kubectl get nodes
 
 -------------------------------------------------
 Sample Output

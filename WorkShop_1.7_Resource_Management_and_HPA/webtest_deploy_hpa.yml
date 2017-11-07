@@ -48,13 +48,13 @@ spec:
       containers:
         - name: webtest
           image: labdocker/cluster:webservicelite_v1
-        #  resources:
-        #    requests:
-        #      memory: "16Mi"
-        #      cpu: 100m
-        #    limits:
-        #      memory: "32Mi"
-        #      cpu: "1"
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: 100m
+            limits:
+              memory: "32Mi"
+              cpu: "1"
           ports:
           - containerPort: 5000
             protocol: TCP

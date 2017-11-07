@@ -19,7 +19,7 @@ Part 1: Setup Docker and Kubernetest Binary: (Apply all node)
 1. SCP script (initialsetup_proxy.sh) from local to Kubernetes Machine (/home/<user>/initialsetup_proxy.sh):
 
 2. Start setup docker and kubernetes by command:
-	sudo chmod +x initialsetup_proxy.sh
+	sudo chmod +x *.sh
 	./initialsetup_proxy.sh
 	
 3. Create folder docker.service.d by command:
@@ -129,13 +129,16 @@ kube-system   kube-flannel-ds-738kk                  1/1       Running   0      
 kube-system   kube-proxy-tf8pm                       1/1       Running   0          43m
 kube-system   kube-scheduler-ubuntumaster            1/1       Running   0          38m
 	-------------------------------------------------
-6. (kubeserve-ms) Install dashboard by command:
+6. (kubernetes-ms) Install dashboard by command:
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl apply -f https://github.com/kubernetes/heapster/raw/master/deploy/kube-config/rbac/heapster-rbac.yaml
+kubectl apply -f https://github.com/kubernetes/heapster/raw/master/deploy/kube-config/influxdb/heapster.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/influxdb.yaml
+kubectl create clusterrolebinding insecure-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
 kubectl get pods --all-namespaces
 
-7. (kubeserve-ms) Grant administrator authorize by command:
-	7.1: SCP file dashboard-admin.yaml,kubernetes-dashboard.yaml to kubeserve-ms
-	7.2: kubectl create -f dashboard-admin.yaml
+7. (kubernetes-ms) Check readyness by command:
+	kubectl get pods --all-namespaces
 
 8. (Kubeserve-ms) Open dashboard by command:
 kubectl proxy --address 10.38.14.200 --accept-hosts '.*'
