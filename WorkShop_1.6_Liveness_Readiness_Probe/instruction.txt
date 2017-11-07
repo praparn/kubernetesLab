@@ -42,17 +42,17 @@ Part 2: TCPSocket Probe
 This workshop will use TCPSocket some command on container for probe
 ====================================================
 1. Create Deployment and check status by command:
-	kubectl create -f webtest_deploy_liveness_readiness_port.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port.yml)
+	kubectl apply -f webtest_deploy_liveness_readiness_port.yml	(In case run via github: kubectl apply -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port.yml)
 	kubectl get deployment/webtest
 	kubectl get pods --show-labels
 	kubectl describe pods/<pods name>
 
 2. Test access browser/curl: http://<ip of minikube>:32500
 
-3. Edit file webtest_deploy_liveness_readiness_port.yml to change monitor port from 5000 to 3000 (or use: webtest_deploy_liveness_readiness_port_mod.yml)
+3. Edit file webtest_deploy_liveness_readiness_port.yml to change monitor port from 5000 to 3000
 
 4. Apply new configuration by command:
-	kubectl apply -f webtest_deploy_liveness_readiness_port_mod.yml (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port_mod.yml)
+	kubectl apply -f webtest_deploy_liveness_readiness_port.yml	(In case run via github: kubectl apply -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port.yml)
 
 5. Check status of pods by command (3 -5 min):
 	kubectl get pods --show-labels
@@ -61,14 +61,14 @@ This workshop will use TCPSocket some command on container for probe
 6. Edit file webtest_deploy_liveness_readiness_port.yml to change monitor port from 3000 to 5000
 
 7. Apply new configuration by command:
-	kubectl apply -f webtest_deploy_liveness_readiness_port.yml 
+	kubectl apply -f webtest_deploy_liveness_readiness_port.yml	(In case run via github: kubectl apply -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port.yml)
 
 8. Check status of pods by command (3 -5 min):
 	kubectl get pods --show-labels
 	kubectl describe pods/<pods name>
 
 9. Cleanup Lab by command:
-	kubectl delete -f webtest_deploy_liveness_readiness_port.yml
+	kubectl delete -f webtest_deploy_liveness_readiness_port.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port.yml)
 
 
 ====================================================
