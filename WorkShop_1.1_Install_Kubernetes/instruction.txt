@@ -11,3 +11,26 @@ Workshop's Resource:
 	2.2 kubectl get cs 					==> check cluster's status
 	2.3 kubectl get pods				==> check pod avaliable
 	2.4 minikube ip 					==> check ip of kubernetes's machine
+
+3. After finished install please kindly access to minikube server for pull image preparation for next workshop
+	3.1 Mac OS X:
+		3.1.1 minikube ssh 
+		3.1.2 Pull image as below:
+			docker pull labdocker/mysql:latest
+			docker pull labdocker/redis:latest
+			docker pull labdocker/cluster:webservice
+			docker pull labdocker/cluster:webcache_kubernetes
+			docker pull labdocker/cluster:webservicelite
+			docker pull labdocker/cadvisor:latest
+
+	3.2 Windows 10 :
+		3.2.1 putty to <minikube ip address>, Username: docker, Password: tcuser
+		3.2.2 Pull image as below:
+			docker pull labdocker/mysql:latest
+			docker pull labdocker/redis:latest
+			docker pull labdocker/cluster:webservice
+			docker pull labdocker/cluster:webcache_kubernetes
+			docker pull labdocker/cluster:webservicelite
+			docker pull labdocker/cadvisor:latest
+			
+4. Open dashboard on minikube by command: minikube dashboard

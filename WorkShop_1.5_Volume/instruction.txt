@@ -7,10 +7,10 @@ Volume by HostPath:
 2. Check file on WorkShop
 
 3. Create Deployment for cAdvisor by command:
-	kubectl create -f cadvisor_deploy.yml
+	kubectl create -f cadvisor_deploy.yml (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.5_Volume/cadvisor_deploy.yml)
 
 4. Check result on web browser:
-	http://<ip of minikube>:
+	http://<ip of minikube>:31000
 
 5. Create file via Container by command:
 	kubectl exec -it <pods name> sh
@@ -18,12 +18,12 @@ Volume by HostPath:
   exit
 
 6. Open another shell for access minikube:
-  minikube ssh
+  minikube ssh/putty
   sudo su -
   ls /var/lib/docker ==> check for "test_cAdvisor.txt"
 
 7. Create Another Deployment with Same:
-kubectl create -f webtest_pod.yml
+kubectl create -f webtest_pod.yml (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.5_Volume/webtest_pod.yml)
 
 8. Access "WebTest Pods" and Check/Create file by command:
 	kubectl exec -it webtest sh
@@ -40,5 +40,5 @@ kubectl create -f webtest_pod.yml
 
 
 10. Cleanup by command:
-	kubectl delete -f webtest_pod.yml
-  kubectl delete -f cadvisor_deploy.yml
+	kubectl delete -f webtest_pod.yml (In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.5_Volume/webtest_pod.yml)
+  kubectl delete -f cadvisor_deploy.yml (In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.5_Volume/cadvisor_deploy.yml)

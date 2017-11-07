@@ -6,12 +6,12 @@ Note: This instruction will demonstrate about how to use RC for maintain avaliab
 2. Check File in Workshop Folder
 
 3. Create RC and check status by command:
-	kubectl create -f webtest_rc.yml
+	kubectl create -f webtest_rc.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.3_Replication_Controller/webtest_rc.yml)
 	kubectl get rc
 	kubectl get pods
 
 4. Create Service and check status by command:
-	kubectl create -f webtest_svc.yml
+	kubectl create -f webtest_svc.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.3_Replication_Controller/webtest_svc.yml)
 	kubectl get svc
 	---------------------------------------------------
 	Example: Port mapping outside on TCP:32500
@@ -61,7 +61,7 @@ Note: This instruction will demonstrate about how to use RC for maintain avaliab
 	kubectl get pods
 
 10. Test scale RC via file with command:
-	kubectl scale --replicas=5 -f webtest_rc.yml
+	kubectl scale --replicas=5 -f webtest_rc.yml	(In case run via github: kubectl scale --replicas=5 -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.3_Replication_Controller/webtest_rc.yml)
 	kubectl get rc webtest
 	kubectl get pods
 
@@ -70,5 +70,5 @@ Note: This instruction will demonstrate about how to use RC for maintain avaliab
 	kubectl describe rc webtest
 
 12. Cleanup Lab by command:
-	kubectl delete -f webtest_svc.yml
-	kubectl delete -f webtest_rc.yml
+	kubectl delete -f webtest_svc.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.3_Replication_Controller/webtest_svc.yml)
+	kubectl delete -f webtest_rc.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.3_Replication_Controller/webtest_rc.yml)

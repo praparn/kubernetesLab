@@ -5,3 +5,5 @@ Note: This instruction will start lab for kubernetes for real workshop:
 
 	1.1 In Case of Gcloud: Please follow Instruction "instruction_gcloud"
 	1.2 In Case of BareMaterial: Please follow Instruction "instruction_baremeterial"
+	1.3 In Case of BareMaterial + Proxy Access: Please follow Instruction "instruction_baremeterial_proxy"
+	1.4 In Case of Play with Docker: Please follow Instruction "instruction_playwith8ks"

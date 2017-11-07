@@ -3,10 +3,9 @@ Note: This instruction will start lab for kubernetes for real workshop:
 ====================================================
 Lab Description:
 VMName:							Machine name		Roles:						IP Address:
-ubuntumaster					ubuntumaster		Master						10.38.14.100
-ubuntunode1						ubuntunode1			NodePort					10.38.14.101
-ubuntunode2						ubuntunode2			NodePort					10.38.14.102
-ubuntunode3						ubuntunode3			NodePort					10.38.14.103
+kubernetes-ms					kubernetes-ms		Master						10.38.14.200
+kubernetes-1					kubernetes-1		NodePort					10.38.14.201
+kubernetes-2					kubernetes-2		NodePort					10.38.14.102
 
 ===================================================
 Username: docker	
@@ -20,21 +19,18 @@ Part 1: Setup Docker and Kubernetest Binary: (Apply all node)
 	sudo chmod +x initialsetup.sh
 	./initialsetup.sh
 	
-3. Create folder docker.service.d by command:
-	sudo mkdir -p /etc/systemd/system/docker.service.d
-	
-4. Test docker command:  docker run hello-world
+3. Relogon System and Test docker command:  docker run hello-world
 
-5. Modify iptables by command:
-	5.1: sudo su -
-	5.2: iptables-save > /etc/iptables.conf
-	5.3: vi /etc/iptables.conf ==> change ":FORWARD DROP [0:0]" to ":FORWARD ACCEPT [0:0]"
-	5.4: iptables-restore < /etc/iptables.conf
+4. Modify iptables by command:
+	4.1: sudo su -
+	4.2: iptables-save > /etc/iptables.conf
+	4.3: vi /etc/iptables.conf ==> change ":FORWARD DROP [0:0]" to ":FORWARD ACCEPT [0:0]"
+	4.4: iptables-restore < /etc/iptables.conf
 
 ===================================================
 Part 2: Initial Kubernetes Cluster
 ===================================================
-1. (ubuntumaster) initial cluster by command:
+1. (kubernetes-ms) initial cluster by command:
 	sudo su -
 	kubeadm init --kubernetes-version=v1.7.0 --pod-network-cidr=10.244.0.0/16 --token 8c2350.f55343444a6ffc46
 	exit
@@ -82,19 +78,20 @@ Part 2: Initial Kubernetes Cluster
 	You can now join any number of machines by running the following on each node
 	as root:
 
-	  kubeadm join --token 8c2350.f55343444a6ffc46 10.38.14.100:6443
+	  kubeadm join --token 8c2350.f55343444a6ffc46 10.38.14.200:6443
 	-------------------------------------------------
-2. (ubuntumaster) Setup run cluster system by command (Regular User):
+2. (kubernetes-ms) Setup run cluster system by command (Regular User):
 		  mkdir -p $HOME/.kube
 		  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 		  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+		  kubectl taint nodes --all node-role.kubernetes.io/master-
 
 
-4. (ubuntumaster) Create flennel net plugin for network for cluster by command:
+4. (kubernetes-ms) Create flennel net plugin for network for cluster by command:
 	kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
     kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel-rbac.yml
 	
-5. (ubuntumaster) Check master readyness and dns by command (Take 5 - 10 min):
+5. (kubernetes-ms) Check master readyness and dns by command (Take 5 - 10 min):
 	kubectl get pods --all-namespaces
 	kubectl describe pods <kube-dns name> --namespace kube-system
 	
@@ -110,23 +107,23 @@ kube-system   kube-flannel-ds-738kk                  1/1       Running   0      
 kube-system   kube-proxy-tf8pm                       1/1       Running   0          43m
 kube-system   kube-scheduler-ubuntumaster            1/1       Running   0          38m
 	-------------------------------------------------
-6. (ubuntumaster) Install dashboard by command:
+6. (kubernetes-ms) Install dashboard by command:
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 kubectl get pods --all-namespaces
 
-7. (ubuntumaster) Grant administrator authorize by command:
+7. (kubernetes-ms) Grant administrator authorize by command:
 	7.1: SCP file dashboard-admin.yml to kubeserve-ms
 	7.2: kubectl create -f dashboard-admin.yaml
 
-8. (ubuntumaster) Open dashboard by command:
-kubectl proxy --address 10.38.14.100 --accept-hosts '.*'
+8. (kubernetes-ms) Open dashboard by command:
+kubectl proxy --address 10.38.14.200 --accept-hosts '.*'
 
 9. (local) Open browser by command
-http://10.38.14.100:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+http://10.38.14.200:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
 
 10. (kubernetes-1),(kubernetes-2) ssh and join to cluster by command:
 	sudo su -
-	kubeadm join --token 8c2350.f55343444a6ffc46 10.38.14.100:6443
+	kubeadm join --token 8c2350.f55343444a6ffc46 10.38.14.200:6443
 	exit
 
 	-------------------------------------------------
@@ -137,15 +134,15 @@ http://10.38.14.100:8001/api/v1/namespaces/kube-system/services/https:kubernetes
 [preflight] Some fatal errors occurred:
 	user is not running as root
 [preflight] If you know what you are doing, you can skip pre-flight checks with `--skip-preflight-checks`
-kubeadmin@kubeserve-1:~$ sudo kubeadm join --token 78435a.f1eb236036e232ff 10.38.14.100:6443
+kubeadmin@kubeserve-1:~$ sudo kubeadm join --token 78435a.f1eb236036e232ff 10.38.14.200:6443
 [sudo] password for kubeadmin:
 [kubeadm] WARNING: kubeadm is in beta, please do not use it for production clusters.
 [preflight] Running pre-flight checks
 [preflight] WARNING: docker version is greater than the most recently validated version. Docker version: 17.06.0-ce. Max validated version: 1.12
-[discovery] Trying to connect to API Server "10.38.14.100:6443"
-[discovery] Created cluster-info discovery client, requesting info from "https://10.38.14.100:6443"
-[discovery] Cluster info signature and contents are valid, will use API Server "https://10.38.14.100:6443"
-[discovery] Successfully established connection with API Server "10.38.14.100:6443"
+[discovery] Trying to connect to API Server "10.38.14.200:6443"
+[discovery] Created cluster-info discovery client, requesting info from "https://10.38.14.200:6443"
+[discovery] Cluster info signature and contents are valid, will use API Server "https://10.38.14.200:6443"
+[discovery] Successfully established connection with API Server "10.38.14.200:6443"
 [bootstrap] Detected server version: v1.7.0
 [bootstrap] The server supports the Certificates API (certificates.k8s.io/v1beta1)
 [csr] Created API client to obtain unique certificate for this node, generating keys and certificate signing request
@@ -167,9 +164,9 @@ kubectl get nodes
 Sample Output
 -------------------------------------------------
 NAME           STATUS    AGE       VERSION
-ubuntumaster   Ready     47m       v1.7.0
-ubuntunode1    Ready     2m        v1.7.0
-ubuntunode2    Ready     2m        v1.7.0
+kubernetes-ms   Ready     47m       v1.7.0
+kubernetes-1    Ready     2m        v1.7.0
+kubernetes-2    Ready     2m        v1.7.0
 -------------------------------------------------
 
 12. (kubernetes-ms)Check Pods from all cluster system running by command:
@@ -202,9 +199,9 @@ kubectl expose deployment webtest --target-port=80 --type=NodePort
 kubectl get svc -o wide
 
 15. (kubernetes-ms) Test get web inside farm by curl:
-curl http://10.38.14.100:<port>
-curl http://10.38.14.101:<port>
-curl http://10.38.14.102:<port>
+curl http://10.38.14.200:<port>
+curl http://10.38.14.201:<port>
+curl http://10.38.14.202:<port>
 
 
 16. (kubeserve-ms) Cleanup Lab by command:

@@ -7,4 +7,3 @@ gcloud beta compute firewall-rules delete "kubernetes-lab-rule-kubernetes" -q
 gcloud compute instances delete kubernetes-1 kubernetes-2 kubernetes-ms -q
 gcloud compute networks subnets delete "kubernetes-lab" -q
 gcloud compute networks delete "kubernetes-lab" -q
-gcloud compute disks delete glusterfa-ms glusterfa-1 glusterfa-2 -q

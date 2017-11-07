@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: TEST
   labels:
-    app: nginx
+    app: TEST
 spec:
   ports:
   - port: 80
-    name: web
+    name: TEST
   clusterIP: None
   selector:
     app: nginx
@@ -16,10 +16,10 @@ spec:
 apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
-  name: web
+  name: TEST
 spec:
-  serviceName: "nginx"
-  replicas: 2
+  serviceName: "TEST"
+  replicas: 3
   selector:
     matchLabels:
       app: nginx
@@ -30,16 +30,16 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: gcr.io/google_containers/nginx-slim:0.8
+        image: labdocker/nginx:latest
         ports:
         - containerPort: 80
           name: web
         volumeMounts:
-        - name: www
+        - name: DB
           mountPath: /usr/share/nginx/html
   volumeClaimTemplates:
   - metadata:
-      name: www
+      name: DB
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:

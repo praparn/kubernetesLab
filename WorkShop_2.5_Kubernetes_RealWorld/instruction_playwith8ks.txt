@@ -1,0 +1,182 @@
+Instruction for Workshop 2.5 Kubernetes in RealWorld:
+Note: This instruction will start lab for kubernetes for real workshop:
+URL: http://labs.play-with-k8s.com/
+====================================================
+Lab Description:
+VMName:							Machine name		Roles:						IP Address:
+node1       					node1       		Master						10.0.x.x
+node2       					node2       		NodePort					10.0.x.x
+node3					        node3		        NodePort					10.0.x.x
+===================================================
+
+0. Access K8S with url http://labs.play-with-k8s.com/: and Click on checkbox "Catcha"
+
+1. Click "+Add NEW Instance" for 3 Times
+	
+2. (node1) initial cluster by command:
+    kubeadm init --kubernetes-version=v1.7.0 --pod-network-cidr=10.244.0.0/16 --token 8c2350.f55343444a6ffc46 --apiserver-advertise-address $(hostname -i)
+
+	*Remark: output of this command will generate token that need to keep:
+	-------------------------------------------------
+	Sample Output:
+	-------------------------------------------------
+	[kubeadm] WARNING: kubeadm is in beta, please do not use it for production clusters.
+	[init] Using Kubernetes version: v1.7.0
+	[init] Using Authorization modes: [Node RBAC]
+	[preflight] Running pre-flight checks
+	[preflight] WARNING: docker version is greater than the most recently validated version. Docker version: 17.06.0-ce. Max validated version: 1.12
+	[certificates] Generated CA certificate and key.
+	[certificates] Generated API server certificate and key.
+	[certificates] API Server serving cert is signed for DNS names [kubeserve-ms kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.99.200]
+	[certificates] Generated API server kubelet client certificate and key.
+	[certificates] Generated service account token signing key and public key.
+	[certificates] Generated front-proxy CA certificate and key.
+	[certificates] Generated front-proxy client certificate and key.
+	[certificates] Valid certificates and keys now exist in "/etc/kubernetes/pki"
+	[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/admin.conf"
+	[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/kubelet.conf"
+	[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/controller-manager.conf"
+	[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/scheduler.conf"
+	[apiclient] Created API client, waiting for the control plane to become ready
+	[apiclient] All control plane components are healthy after 64.501528 seconds
+	[token] Using token: b2aa8c.e6d1e0a724c3f50e
+	[apiconfig] Created RBAC rules
+	[addons] Applied essential addon: kube-proxy
+	[addons] Applied essential addon: kube-dns
+
+	Your Kubernetes master has initialized successfully!
+
+	To start using your cluster, you need to run (as a regular user):
+
+	  mkdir -p $HOME/.kube
+	  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+	  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+	You should now deploy a pod network to the cluster.
+	Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+	  http://kubernetes.io/docs/admin/addons/
+
+	You can now join any number of machines by running the following on each node
+	as root:
+
+	kubeadm join --token 8c2350.f55343444a6ffc46 10.0.22.3:6443
+
+    Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+    daemonset "kube-proxy" configured
+    No resources found
+	-------------------------------------------------
+3. (node1) Taint Node by command:
+		  kubectl taint nodes --all node-role.kubernetes.io/master-
+
+4. (node1) Create weave net plugin for network for cluster by command:
+	kubectl apply -n kube-system -f \
+    "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 |tr -d '\n')"
+
+5. (node1) Check master readyness and dns by command (Take 5 - 10 min):
+	kubectl get pods --all-namespaces
+	kubectl describe pods <kube-dns name> --namespace kube-system
+
+	-------------------------------------------------
+	Sample Output
+	-------------------------------------------------
+	NAMESPACE     NAME                                   READY     STATUS    RESTARTS   AGE
+kube-system   etcd-kubeserve-ms                      1/1       Running   0          1m
+kube-system   kube-apiserver-kubeserve-ms            1/1       Running   0          2m
+kube-system   kube-controller-manager-kubeserve-ms   1/1       Running   0          3m
+kube-system   kube-dns-2425271678-xhhk6              3/3       Running   0          2m
+kube-system   kube-flannel-ds-n9ws7                  2/2       Running   0          2m
+kube-system   kube-proxy-vzswv                       1/1       Running   0          2m
+kube-system   kube-scheduler-kubeserve-ms            1/1       Running   0          2m
+	-------------------------------------------------
+
+6. (node1) Install dashboard by command:
+curl -L -s https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml  | sed 's/targetPort: 8443/targetPort: 8443\n  type: LoadBalancer/' |   kubectl apply -f -
+kubectl apply -f https://github.com/kubernetes/heapster/raw/master/deploy/kube-config/rbac/heapster-rbac.yaml
+kubectl apply -f https://github.com/kubernetes/heapster/raw/master/deploy/kube-config/influxdb/heapster.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/influxdb.yaml
+kubectl create clusterrolebinding insecure-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+kubectl get pods --all-namespaces
+
+7. (node1) Open dashboard by right click link and change to https:
+
+8. (node1) Open browser by command
+https://ip10-0-20-3-30711.host2.labs.play-with-k8s.com/ 
+(Example)
+
+9. (node2),(node3) ssh and join to cluster by command:
+	kubeadm join --token 8c2350.f55343444a6ffc46 10.0.20.3:6443 
+    (Example)
+	-------------------------------------------------
+	Sample Output
+	-------------------------------------------------
+[kubeadm] WARNING: kubeadm is in beta, please do not use it for production clusters.
+[preflight] Running pre-flight checks
+[preflight] Some fatal errors occurred:
+	user is not running as root
+[preflight] If you know what you are doing, you can skip pre-flight checks with `--skip-preflight-checks`
+kubeadmin@kubeserve-1:~$ sudo kubeadm join --token 78435a.f1eb236036e232ff 192.168.99.200:6443
+[sudo] password for kubeadmin:
+[kubeadm] WARNING: kubeadm is in beta, please do not use it for production clusters.
+[preflight] Running pre-flight checks
+[preflight] WARNING: docker version is greater than the most recently validated version. Docker version: 17.06.0-ce. Max validated version: 1.12
+[discovery] Trying to connect to API Server "192.168.99.200:6443"
+[discovery] Created cluster-info discovery client, requesting info from "https://192.168.99.200:6443"
+[discovery] Cluster info signature and contents are valid, will use API Server "https://192.168.99.200:6443"
+[discovery] Successfully established connection with API Server "192.168.99.200:6443"
+[bootstrap] Detected server version: v1.7.0
+[bootstrap] The server supports the Certificates API (certificates.k8s.io/v1beta1)
+[csr] Created API client to obtain unique certificate for this node, generating keys and certificate signing request
+[csr] Received signed certificate from the API server, generating KubeConfig...
+[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/kubelet.conf"
+
+Node join complete:
+* Certificate signing request sent to master and response
+  received.
+* Kubelet informed of new secure connection details.
+
+Run 'kubectl get nodes' on the master to see this machine join.
+	-------------------------------------------------
+
+10. (node1) Check Node in Cluster by command (This take 5 - 10 min):
+kubectl get nodes
+
+-------------------------------------------------
+Sample Output
+-------------------------------------------------
+NAME           STATUS    AGE       VERSION
+node1           Ready     5m        v1.7.0
+node2           Ready     3m        v1.7.0
+node2           Ready     19m       v1.7.0
+-------------------------------------------------
+
+11. (node1)Check Pods from all cluster system running by command:
+kubectl get pods --all-namespaces
+
+-------------------------------------------------
+Sample Output
+-------------------------------------------------
+NAMESPACE     NAME                                   READY     STATUS    RESTARTS   AGE
+kube-system   etcd-kubeserve-ms                      1/1       Running   0          10m
+kube-system   kube-apiserver-kubeserve-ms            1/1       Running   0          10m
+kube-system   kube-controller-manager-kubeserve-ms   1/1       Running   0          11m
+kube-system   kube-dns-2425271678-xhhk6              3/3       Running   0          11m
+kube-system   kube-flannel-ds-1h8cv                  2/2       Running   2          7m
+kube-system   kube-flannel-ds-83xdr                  2/2       Running   0          6m
+kube-system   kube-flannel-ds-n9ws7                  2/2       Running   0          11m
+kube-system   kube-proxy-6d7g1                       1/1       Running   0          7m
+kube-system   kube-proxy-qzfdr                       1/1       Running   0          6m
+kube-system   kube-proxy-vzswv                       1/1       Running   0          11m
+kube-system   kube-scheduler-kubeserve-ms            1/1       Running   0          11m
+-------------------------------------------------
+
+12. (node1) Test deployment basic nginx pods by command
+kubectl run webtest --image=labdocker/nginx:latest --port=80
+kubectl get pods -o wide
+kubectl expose deployment webtest --target-port=80 --type=NodePort
+kubectl get svc -o wide
+
+13. (node1) Test open web for nginx
+
+14. (node1) Cleanup Lab by command:
+kubectl delete deployment/webtest
+kubectl delete svc/webtest
