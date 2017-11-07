@@ -42,7 +42,7 @@ Part 2: TCPSocket Probe
 This workshop will use TCPSocket some command on container for probe
 ====================================================
 1. Create Deployment and check status by command:
-	kubectl apply -f webtest_deploy_liveness_readiness_port.yml	(In case run via github: kubectl apply -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port.yml)
+	kubectl apply -f webtest_deploy_liveness_readiness_port.yml	
 	kubectl get deployment/webtest
 	kubectl get pods --show-labels
 	kubectl describe pods/<pods name>
@@ -52,14 +52,23 @@ This workshop will use TCPSocket some command on container for probe
 3. Edit file webtest_deploy_liveness_readiness_port.yml to change monitor port from 5000 to 3000
 
 4. Apply new configuration by command:
-	kubectl apply -f webtest_deploy_liveness_readiness_port.yml	(In case run via github: kubectl apply -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port.yml)
+	kubectl apply -f webtest_deploy_liveness_readiness_port.yml
 
 5. Check status of pods by command (3 -5 min):
 	kubectl get pods --show-labels
 	kubectl describe pods/<pods name>
 
-6. Cleanup Lab by command:
-	kubectl delete -f webtest_deploy_liveness_readiness_port.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_liveness_readiness_port.yml)
+5. Edit file webtest_deploy_liveness_readiness_port.yml to change monitor port from 3000 to 5000
+
+6. Apply new configuration by command:
+	kubectl apply -f webtest_deploy_liveness_readiness_port.yml
+
+7. Check status of pods by command (3 -5 min):
+	kubectl get pods --show-labels
+	kubectl describe pods/<pods name>
+
+8. Cleanup Lab by command:
+	kubectl delete -f webtest_deploy_liveness_readiness_port.yml
 
 
 ====================================================
@@ -67,14 +76,15 @@ Part 3: HTTPGet Probe
 This workshop will use http get request some command on container for probe
 ====================================================
 1. Create Deployment and check status by command:
-	kubectl create -f webtest_deploy_liveness_readiness_http.yml 
+	kubectl apply -f webtest_deploy_liveness_readiness_http.yml
 	kubectl get deployment/webtest
 	kubectl get pods --show-labels
 	kubectl describe pods/<pods name>
 
 2. Test access browser/curl: http://<ip of minikube>:32500
+	*Check HTTP Header by curl (curl -I http://192.168.99.100:32500) or postman
 
-3. Edit file webtest_deploy_liveness_readiness_http.yml to change httpHeaders remove ""
+3. Edit file webtest_deploy_liveness_readiness_http.yml to change httpHeaders path from / to /init
 
 4. Apply new configuration by command:
 	kubectl apply -f webtest_deploy_liveness_readiness_http.yml 
@@ -83,7 +93,7 @@ This workshop will use http get request some command on container for probe
 	kubectl get pods --show-labels
 	kubectl describe pods/<pods name>
 
-6. Edit file webtest_deploy_liveness_readiness_port.yml to change httpHeaders add ""
+6. Edit file webtest_deploy_liveness_readiness_port.yml to change httpHeaders path from /init to /
 
 7. Apply new configuration by command:
 	kubectl apply -f webtest_deploy_liveness_readiness_http.yml 
@@ -101,8 +111,8 @@ This workshop will use execute some command on container for probe
 ====================================================
 
 1. Create Deployment and check status by command:
-	kubectl create -f webtest_deploy_readiness_1.yml
-	kubectl create -f webtest_deploy_readiness_2.yml
+	kubectl create -f webtest_deploy_readiness_1.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_readiness_1.yml)
+	kubectl create -f webtest_deploy_readiness_2.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_readiness_2.yml)
 	kubectl get deployment/webtest1
 	kubectl describe deployment/webtest1
 	kubectl get deployment/webtest2
@@ -135,6 +145,6 @@ This workshop will use execute some command on container for probe
 8. Test access browser/curl: http://<ip of minikube>:32500 (5 - 6 Time)
 
 9. Cleanup Lab by command:
-	kubectl delete -f webtest_deploy_readiness_1.yml
-	kubectl delete -f webtest_deploy_readiness_2.yml
+	kubectl delete -f webtest_deploy_readiness_1.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_readiness_1.yml)
+	kubectl delete -f webtest_deploy_readiness_2.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_readiness_2.yml)
 	kubectl delete -f webtest_svc.yml

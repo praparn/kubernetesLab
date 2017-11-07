@@ -1,13 +1,13 @@
 Instruction for Workshop 2.4 Ingress Network:
 Note: This instruction will start lab for kubernetes for ingress workshop
 --------------------------------------------------------------------------
-0. Enable NGINX addon for ingress by command:
+0. Enable addon for ingress by command:
 	minikube addons enable ingress
 	minikube addons list
 
 1. Create Service/Pods/Deployment for webtest1 and webtest2 by command:
-	kubectl create -f webtest_deploy.yml
-	kubectl create -f webtest_deploy2.yml
+	kubectl create -f webtest_deploy.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/webtest_deploy.yml)
+	kubectl create -f webtest_deploy2.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/webtest_deploy2.yml)
 
 2. View service for connection by command:
 	kubectl get svc -o wide
@@ -30,7 +30,7 @@ _L,version=1.0
 	curl http://<ip of webtest2> or durl http://webtest2
 
 4. Create ingress for access by command:
-	kubectl create -f ingress_webtest.yml
+	kubectl create -f ingress_webtest.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/ingress_webtest.yml)
 	kubectl get ing -o wide
 	kubectl describe ing/ingresswebtest
 
@@ -42,7 +42,7 @@ _L,version=1.0
 		<minikube ip> webtest1.kuberneteslabthailand.com webtest2.kuberneteslabthailand.com
 
 	For Mac:
-	echo "$(minikube ip) webtest1.kuberneteslabthailand.com webtest2.kuberneteslabthailand.com" | sudo tee -a /etc/hosts
+	echo "$(minikube ip) webtest1.kuberneteslabthailand.com webtest2.kuberneteslabthailand.com" | sudo tee -a /private/etc/hosts
 
 	*Remark: for case you don't prefer for add hosts please kindly use curl instead:
 	curl http://<minikube ip> -H 'Host:webtest1.kuberneteslabthailand.com'
@@ -53,14 +53,14 @@ _L,version=1.0
 	curl http://webtest2.kuberneteslabthailand.com
 
 8. Delete Existing Ingress by command:
-	kubectl delete -f ingress_webtest.yml
+	kubectl delete -f ingress_webtest.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/ingress_webtest.yml)
 
 9. Create TLS Secret by command:
-	kubectl create -f ingress_webtest_tls_secret_webtest1.yml
-	kubectl create -f ingress_webtest_tls_secret_webtest2.yml
+	kubectl create -f ingress_webtest_tls_secret_webtest1.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/ingress_webtest_tls_secret_webtest1.yml)
+	kubectl create -f ingress_webtest_tls_secret_webtest2.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/ingress_webtest_tls_secret_webtest2.yml)
 
 10. Create ingress for TLS by command:
-	kubectl create -f ingress_webtest_tls.yml
+	kubectl create -f ingress_webtest_tls.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/ingress_webtest_tls.yml)
 	kubectl get ing/ingresswebtesttls -o wide
 	kubectl describe ing/ingresswebtesttls
 
@@ -69,9 +69,9 @@ _L,version=1.0
 	https://webtest2.kuberneteslabthailand.com
 
 12. Clean Up Lab:
-	kubectl delete -f ingress_webtest_tls.yml
-	kubectl delete -f ingress_webtest_tls_secret_webtest1.yml
-	kubectl delete -f ingress_webtest_tls_secret_webtest2.yml
-	kubectl delete -f webtest_deploy.yml
-	kubectl delete -f webtest_deploy2.yml
+	kubectl delete -f ingress_webtest_tls.yml	 (In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/ingress_webtest_tls.yml)
+	kubectl delete -f ingress_webtest_tls_secret_webtest1.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/ingress_webtest_tls_secret_webtest1.yml)
+	kubectl delete -f ingress_webtest_tls_secret_webtest2.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/ingress_webtest_tls_secret_webtest2.yml)
+	kubectl delete -f webtest_deploy.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/webtest_deploy.yml)
+	kubectl delete -f webtest_deploy2.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.4_Ingress_Network/webtest_deploy2.yml)
 	kubectl delete deployment/curl

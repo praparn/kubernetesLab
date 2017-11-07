@@ -11,7 +11,7 @@ Part0: Generate LINE token:
 ====================================================
 Create Job for Monitor System via LINE:
 ====================================================
-1. Get command prompt for access folder workshop 2.2 by command :cd /xxxx/WorkShop_1.6_Job_CronJob
+1. Get command prompt for access folder workshop 2.2 by command :cd /xxxx/WorkShop_2.2_Job_CronJob
 2. Check File on WorkShop
 3. Open job.yml file and Edit Environment (Show Information Mode):
 	        env:

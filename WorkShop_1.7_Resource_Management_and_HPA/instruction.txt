@@ -9,13 +9,13 @@ Part1: Container level configuration:
 2. Check file on WorkShop
 
 3. Create Pods/Cadvisor by command:
-	kubectl create -f webtest_pod.yml
-	kubectl create -f cadvisor_deploy.yml
+	kubectl create -f webtest_pod.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/webtest_pod.yml)
+	kubectl create -f cadvisor_deploy.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/cadvisor_deploy.yml)
 	kubectl get pods --show-labels
 
 4. Open another shell for access minikube vm by command:
 	Open browser: http://<minikube ip>:31000
-	minikube ssh
+	minikube ssh/putty
 	export TERM=xterm
 	top
 
@@ -58,7 +58,7 @@ GiB Swap:  0.0/0.977    [                                                       
 	kubectl describe node
 
 10. Cancel all work load and Delete Pods by command:
-	kubectl delete -f webtest_pod.yml
+	kubectl delete -f webtest_pod.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/webtest_pod.yml)
 
 
 ====================================================
@@ -69,11 +69,11 @@ Part 2: Name space level configuration:
 	kubectl create namespace webtest-namespace
 
 2. Create Quota and attach to Namespace and view describe by command:
-	kubectl create -f webtest_quota.yml --namespace=webtest-namespace
+	kubectl create -f webtest_quota.yml --namespace=webtest-namespace (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/webtest_quota.yml --namespace=webtest-namespace)
 	kubectl describe namespace/webtest-namespace
 
 3. Try to create deployment by command:
-	kubectl create -f webtest_deploy.yml --namespace=webtest-namespace
+	kubectl create -f webtest_deploy.yml --namespace=webtest-namespace	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/webtest_deploy.yml --namespace=webtest-namespace)
 
 4. Check completeness of deployment/rs/pods/svc by command:
 	kubectl get deployment/webtest --namespace=webtest-namespace
@@ -86,12 +86,12 @@ Part 2: Name space level configuration:
 	kubectl describe rs --namespace=webtest-namespace
 
 6. Create LimitRange attach to Namespace and view descibe by command:
-	kubectl create -f webtest_limit.yml --namespace=webtest-namespace
+	kubectl create -f webtest_limit.yml --namespace=webtest-namespace	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/webtest_limit.yml --namespace=webtest-namespace)
 	kubectl describe namespace/webtest-namespace
 
 7. Recreate Deployment by command:
-	kubectl delete -f webtest_deploy.yml --namespace=webtest-namespace
-	kubectl create -f webtest_deploy.yml --namespace=webtest-namespace
+	kubectl delete -f webtest_deploy.yml --namespace=webtest-namespace	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/webtest_deploy.yml --namespace=webtest-namespace)
+	kubectl create -f webtest_deploy.yml --namespace=webtest-namespace	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/webtest_deploy.yml --namespace=webtest-namespace)
 
 8. Check completeness of deployment/rs/pods/svc by command:
 	kubectl get deployment/webtest --namespace=webtest-namespace
@@ -114,6 +114,6 @@ kubectl get pods --namespace=webtest-namespace
 kubectl describe pods <pods name> --namespace=webtest-namespace
 
 12. Clean up lab by command:
-	kubectl delete -f webtest_deploy.yml --namespace=webtest-namespace
-	kubectl delete -f cadvisor_deploy.yml
+	kubectl delete -f webtest_deploy.yml --namespace=webtest-namespace	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/webtest_deploy.yml --namespace=webtest-namespace)
+	kubectl delete -f cadvisor_deploy.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.7_Resource_Management_and_HPA/cadvisor_deploy.yml)
 	kubectl delete namespace/webtest-namespace
