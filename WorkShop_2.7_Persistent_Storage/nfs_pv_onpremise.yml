@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-share-pv
+  labels:
+    name: nfs-share-pv
+    owner: Praparn_L
+    version: "1.0"
+    module: PV
+    environment: development
+spec:
+  capacity:
+    storage: 1Gi
+  storageClassName: ""
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 10.38.14.200
+    path: "/var/nfsshare"

@@ -134,9 +134,9 @@ Part 5: Taint and Tolerations
 6. (kubernetes-ms,node1) Delete and Clear Taint by command:
 	Google Cloud/Onpremise:
 	kubectl delete -f webtest_pod_taint.yml	(In case run via github or Play with K8S:: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_taint.yml)
-	kubectl taint nodes kubernetes-1 dedicated:NoSchedule-
+	kubectl taint nodes kubernetes-1 dedicated-
 
 	Play with K8S:
 	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_taint_k8s.yml
-	kubectl taint nodes node2 dedicated:NoSchedule-
+	kubectl taint nodes node2 dedicated-
 	
