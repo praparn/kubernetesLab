@@ -1,0 +1,19 @@
+apiVersion: "v1"
+kind: Pod
+metadata:
+  name: webtest
+  labels:
+    name: web
+    owner: Praparn_L
+    version: "1.0"
+    module: WebServer
+    environment: development
+spec:
+  containers:
+    - name: webtest
+      image: labdocker/cluster:webservicelite
+      ports:
+        - containerPort: 5000
+          protocol: TCP
+  nodeSelector:
+     kubernetes.io/hostname: node2

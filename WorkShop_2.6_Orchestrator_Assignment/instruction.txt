@@ -18,7 +18,7 @@ Part 1: nodeSelector:
 	Play with K8S:
 	http://labs.play-with-k8s.com/
 
-2. (Client Machine) SCP file test by command:
+2. (Client Machine) SCP file test by command (Or github can skip):
 	Google Cloud:
 	gcloud compute scp *.yml kubernetes-ms:/home/<your account>/
 	gcloud compute --project "kubernetesproject-170714" ssh "kubernetes-ms"
@@ -42,10 +42,7 @@ Part 1: nodeSelector:
 
 4. (kubernetes-ms,node1) Create Pods by command:
 	Google Cloud/Onpremise:
-	kubectl create -f webtest_pod_nodeselector.yml
-
-	Play with K8S:
-	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_nodeselector.yml
+	kubectl create -f webtest_pod_nodeselector.yml	(In case run via github or Play with K8S: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_nodeselector.yml)
 
 5. (kubernetes-ms,node1) Monitor Pods location by command:
 	kubectl get pods -o wide
@@ -53,18 +50,16 @@ Part 1: nodeSelector:
 
 6. (kubernetes-ms,node1) Delete Pods by command:
 	Google Cloud/Onpremise:
-	kubectl delete -f webtest_pod_nodeselector.yml
-
-	Play with K8S:
-	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_nodeselector.yml
+	kubectl delete -f webtest_pod_nodeselector.yml	(In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_nodeselector.yml)
 
 Part 2: Interlude:
 1. (kubernetes-ms,node1) Create Pods by command:
 	Google Cloud/Onpremise:
-	kubectl create -f webtest_pod_interlude.yml
+	kubectl create -f webtest_pod_interlude.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude.yml)
 
 	Play with K8S:
-	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude.yml
+	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude_k8s.yml
+
 
 2. (kubernetes-ms,node1) Monitor Pods location by command:
 	kubectl get pods -o wide
@@ -72,18 +67,16 @@ Part 2: Interlude:
 
 3. (kubernetes-ms,node1) Delete Pods by command:
 	Google Cloud/Onpremise:
-	kubectl delete -f webtest_pod_interlude.yml
+	kubectl delete -f webtest_pod_interlude.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude.yml)
 
 	Play with K8S:
-	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude.yml
+	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude_k8s.yml
+
 
 Part 3: Affinity (Node):
 1. (kubernetes-ms,node1) Create Pods by command:
 	Google Cloud/Onpremise
-	kubectl create -f webtest_pod_affinity.yml
-
-	Play with K8S:
-	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_affinity.yml
+	kubectl create -f webtest_pod_affinity.yml	(In case run via github or Play with K8S: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_affinity.yml)
 
 2. (kubernetes-ms,node1) Monitor Pods location by command:
 	kubectl get pods -o wide
@@ -92,11 +85,7 @@ Part 3: Affinity (Node):
 Part 4: Inter-Pod Affinity and Anti-affinity:
 1. (kubernetes-ms,node1) Create Pods by command:
 	Google Cloud/Onpremise
-	kubectl create -f webtest_pod_affinity_topokey.yml
-
-	Play with K8S:
-	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_affinity_topokey.yml
-
+	kubectl create -f webtest_pod_affinity_topokey.yml	(In case run via github or Play with K8S: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_affinity_topokey.yml)
 
 2. (kubernetes-ms,node1) Monitor Pods location by command:
 	kubectl get pods -o wide
@@ -104,40 +93,39 @@ Part 4: Inter-Pod Affinity and Anti-affinity:
 
 3. (kubernetes-ms,node1) Delete Pods by command:
 	Google Cloud/Onpremise
-	kubectl delete -f webtest_pod_affinity_topokey.yml
-	kubectl delete -f webtest_pod_affinity.yml
-
-	Play with K8S:
-	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_affinity_topokey.yml
-	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_affinity.yml
+	kubectl delete -f webtest_pod_affinity_topokey.yml	(In case run via github or Play with K8S:: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_affinity_topokey.yml)
+	kubectl delete -f webtest_pod_affinity.yml	(In case run via github or Play with K8S:: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_affinity.yml)
 
 Part 5: Taint and Tolerations
 1. (kubernetes-ms,node1) Set Taint on node kubernetes-1 for admin operate by command:
 	kubectl taint nodes kubernetes-1 dedicated=admin:NoSchedule
 
+	Play with K8S:
+	kubectl taint nodes node2 dedicated=admin:NoSchedule
+
 2. (kubernetes-ms,node1) Create Pods by command:
 	Google Cloud/Onpremise
-	kubectl create -f webtest_pod_interlude.yml
+	kubectl create -f webtest_pod_interlude.yml	(In case run via github:: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude.yml)
 
 	Play with K8S:
-	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude.yml
+	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude_k8s.yml
 
 3. (kubernetes-ms,node1) Monitor Pods location by command:
 	kubectl get pods -o wide
 	kubectl describe pods/webtest
 
 	Google Cloud/Onpremise:
-	kubectl delete -f webtest_pod_interlude.yml
+	kubectl delete -f webtest_pod_interlude.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude.yml)
 
 	Play with K8S:
-	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude.yml
+	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_interlude_k8s.yml
 
 4. (kubernetes-ms,node1) Create Tolerations Pods by command:
 	Google Cloud/Onpremise:
-	kubectl create -f webtest_pod_taint.yml
+	kubectl create -f webtest_pod_taint.yml	(In case run via github:: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_taint.yml)
 
 	Play with K8S:
-	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_taint.yml
+	kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_taint_k8s.yml
 
 5. (kubernetes-ms,node1) Monitor Pods location by command:
 	kubectl get pods -o wide
@@ -145,9 +133,10 @@ Part 5: Taint and Tolerations
 
 6. (kubernetes-ms,node1) Delete and Clear Taint by command:
 	Google Cloud/Onpremise:
-	kubectl delete -f webtest_pod_taint.yml
+	kubectl delete -f webtest_pod_taint.yml	(In case run via github or Play with K8S:: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_taint.yml)
+	kubectl taint nodes kubernetes-1 dedicated:NoSchedule-
 
 	Play with K8S:
-	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_taint.yml
+	kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.6_Orchestrator_Assignment/webtest_pod_taint_k8s.yml
+	kubectl taint nodes node2 dedicated:NoSchedule-
 	
-	kubectl taint nodes kubernetes-1 dedicated:NoSchedule-
