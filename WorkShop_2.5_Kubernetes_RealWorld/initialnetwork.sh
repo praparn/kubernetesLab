@@ -1,4 +1,4 @@
-gcloud compute networks create "kubernetes-lab" --description "KubernetesLab-Network" --mode "custom"
+gcloud compute networks create "kubernetes-lab" --description "KubernetesLab-Network" --subnet-mode "custom"
 
 gcloud compute networks subnets create "kubernetes-lab" \
 --network "kubernetes-lab" --range "192.168.99.0/24"

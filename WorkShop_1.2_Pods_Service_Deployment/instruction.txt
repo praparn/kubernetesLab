@@ -79,7 +79,7 @@ This workshop will create Pods with multiple container
 	----------
 	Set by Postman
 
-7. Test get webpage by browser: http://<ip address of minikube>:32500
+7. Test get webpage by browser: http://<ip address of minikube>:30500
 
 8. Initial database by command:
 		curl http://$Server_IP:$Server_Port/init			==> initial Database

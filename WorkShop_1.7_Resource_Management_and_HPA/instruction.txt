@@ -5,7 +5,7 @@ Note: This instruction will demonstrate about how to manage resouce in cluster w
 ====================================================
 Part1: Container level configuration:
 ====================================================
-1. Get command prompt for access folder workshop 1.5 by command :cd /xxxx/WorkShop_1.7_Resource_Management_and_HPA
+1. Get command prompt for access folder workshop 1.7 by command :cd /xxxx/WorkShop_1.7_Resource_Management_and_HPA
 2. Check file on WorkShop
 
 3. Create Pods/Cadvisor by command:

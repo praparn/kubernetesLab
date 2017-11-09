@@ -43,6 +43,9 @@ Create Job for Monitor System via LINE:
 7. CleanUp Job by command:
 kubectl get jobs --all-namespaces | sed '1d' | awk '{ print $2}'| while read line; do kubectl delete jobs $line; done
 
+For Windows:
+kubectl delete -f job.yml
+
 8. Open job_notify.yml file and Edit Environment (Show Information Mode):
 	        env:
         - name: TITLE
@@ -70,3 +73,6 @@ kubectl get jobs --all-namespaces | sed '1d' | awk '{ print $2}'| while read lin
 
 12. Delete Job by command:
 kubectl get jobs --all-namespaces | sed '1d' | awk '{ print $2}'| while read line; do kubectl delete jobs $line; done
+
+For Windows:
+kubectl delete -f job_notify.yml

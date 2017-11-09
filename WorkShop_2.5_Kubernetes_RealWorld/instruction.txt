@@ -1,6 +1,8 @@
 Instruction for Workshop 2.5 Kubernetes in RealWorld:
 Note: This instruction will start lab for kubernetes for real workshop:
 
+*For Windows 10: Need to run Powershell (As Administrator) for "Set-ExecutionPolicy Unrestricted"
+
 1. Prepare machine for lab.
 
 	1.1 In Case of Gcloud: Please follow Instruction "instruction_gcloud"

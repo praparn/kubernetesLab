@@ -72,7 +72,7 @@ kubectl create -f nfs_pvc.yml   (In case run via github or Play with K8S: kubect
 
 Onpremise:
 cp mainlite.py /mnt/nfs_share/ (In case run via github or Play with K8S: curl  https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/mainlite.py > /mnt/nfs_share/mainlite.py)
-kubectl create -f nfs_pv.yml    (In case run via github or Play with K8S: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_pv_onpremise.yml)
+kubectl create -f nfs_pv_onpremise.yml    (In case run via github or Play with K8S: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_pv_onpremise.yml)
 kubectl create -f nfs_pvc.yml   (In case run via github or Play with K8S: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_pvc.yml)
 
 kubectl get pv
@@ -114,7 +114,14 @@ exit
     exit
 
 8. (kubernetes-ms) Clean Up file and deployment by command:
+    Google Cloud:
     kubectl delete -f nfs_webtest_deploy.yml    (In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_webtest_deploy.yml)
     kubectl delete -f nfs_webtest_svc.yml   (In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_webtest_svc.yml)
     kubectl delete -f nfs_pvc.yml   (In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_pvc.yml)
     kubectl delete -f nfs_pv.yml    (In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_pv.yml)
+
+    Onpremise:
+    kubectl delete -f nfs_webtest_deploy.yml    (In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_webtest_deploy.yml)
+    kubectl delete -f nfs_webtest_svc.yml   (In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_webtest_svc.yml)
+    kubectl delete -f nfs_pvc.yml   (In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_pvc.yml)
+    kubectl delete -f nfs_pv_onpremise.yml    (In case run via github or Play with K8S: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.7_Persistent_Storage/nfs_pv_onpremise.yml)

@@ -147,4 +147,4 @@ This workshop will use execute some command on container for probe
 9. Cleanup Lab by command:
 	kubectl delete -f webtest_deploy_readiness_1.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_readiness_1.yml)
 	kubectl delete -f webtest_deploy_readiness_2.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_deploy_readiness_2.yml)
-	kubectl delete -f webtest_svc.yml
+	kubectl delete -f webtest_svc.yml	(In case run via github: kubectl delete -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.6_Liveness_Readiness_Probe/webtest_svc.yml)
