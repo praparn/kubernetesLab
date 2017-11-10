@@ -9,7 +9,7 @@ Part1: Container Logging:
 2. Check File on WorkShop
 
 3. Create Database Deployment by command:
-	kubectl create -f databasemodule_deploy.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.3_Log_and_Monitoring/databasemodule_deploy.yml)
+	kubectl create -f databasemodule_deploy.yml --validate=false	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.3_Log_and_Monitoring/databasemodule_deploy.yml --validate=false)
 	kubectl get deploy
 	kubectl get rs
 	kubectl get pods
@@ -21,7 +21,7 @@ Part1: Container Logging:
 	kubectl logs pods/<pods name> -c maindb
 
 6. Create WebModule Deployment by command:
-	kubectl create -f webmodule_deploy.yml	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.3_Log_and_Monitoring/webmodule_deploy.yml)
+	kubectl create -f webmodule_deploy.yml --validate=false	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.3_Log_and_Monitoring/webmodule_deploy.yml --validate=false)
 	kubectl get deployment/web
 	kubectl get rs
 	kubectl get pods

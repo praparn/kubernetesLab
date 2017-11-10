@@ -30,7 +30,7 @@ Create Job for Monitor System via LINE:
 
 
 4. Create Job by command:
-	kubectl create -f job.yml
+	kubectl create -f job.yml --validate=false
 	kubectl get jobs -o wide
 	kubectl get pods -o wide
 
@@ -44,7 +44,7 @@ Create Job for Monitor System via LINE:
 kubectl get jobs --all-namespaces | sed '1d' | awk '{ print $2}'| while read line; do kubectl delete jobs $line; done
 
 For Windows:
-kubectl delete -f job.yml
+kubectl delete -f job.yml --validate=false
 
 8. Open job_notify.yml file and Edit Environment (Show Information Mode):
 	        env:
@@ -62,7 +62,7 @@ kubectl delete -f job.yml
           value: "EIeqyillzkzpaCo1ROrebZTcGbIyzDZHpOjcdd0t6CX"	==> Input LINE TOKEN
 
 9. Create Job by command:
-	kubectl create -f job_notify.yml
+	kubectl create -f job_notify.yml --validate=false
 	kubectl get jobs -o wide
 	kubectl get pods -o wide
 

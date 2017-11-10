@@ -6,12 +6,12 @@ Note: This instruction will demonstrate about how to use Deployment/RS for deplo
 2. Check File on WorkShop
 
 3. Create Deployment and check status by command:
-	kubectl create -f webtest_deploy.yml --record (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.4_Deployment/webtest_deploy.yml --record)
+	kubectl create -f webtest_deploy.yml --validate=false --record (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.4_Deployment/webtest_deploy.yml --validate=false --record)
 	kubectl get deployment
 	kubectl get pods --show-labels
 
 4. Create Service and check status by command:
-	kubectl create -f webtest_svc.yml --record (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.4_Deployment/webtest_svc.yml --record)
+	kubectl create -f webtest_svc.yml --validate=false --record (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.4_Deployment/webtest_svc.yml --validate=false --record)
 	kubectl get svc
 	---------------------------------------------------
 	Example: Port mapping outside on TCP:32500
@@ -74,7 +74,7 @@ Note: This instruction will demonstrate about how to use Deployment/RS for deplo
 	---------------------------------------------------
 	deployments "webtest"
 	REVISION	CHANGE-CAUSE
-	1		kubectl create --filename=webtest_deploy.yml --record=true
+	1		kubectl create --filename=https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.4_Deployment/webtest_deploy.yml --validate=false --record=true
 	2		kubectl set image deployment/webtest webtest=labdocker/cluster:webservicelite_v1.51rc
 	3		kubectl set image deployment/webtest webtest=labdocker/cluster:webservicelite_v1.8ga
 	---------------------------------------------------

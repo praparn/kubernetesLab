@@ -1,0 +1,3 @@
+Course Description:
+
+    คอร์สที่จะสอนการใช้งาน Docker และ Container Service ให้คุณได้เรียนรู้ตั้งแต่การใช้งานพื้นฐานสำหรับผู้ที่ไม่เคยใช้งาน docker มาก่อนพร้อมตัวอย่างใน Workshop ให้ลงมือทำจริง, เรียนรู้การจัดสรรทรัพยากรบน docker สำหรับ production workload , การจัดการระบบเน็ตเวิร์คและ load balancer บน Container Virtual World จนถึงการประยุกต์ใช้งานบนเครือข่ายแบบเครือข่ายเสมือน(MacVlan), การใช้งาน Docker Cluster Mode (Swarm) เพื่อขยายการให้บริการ Docker ไปบน Cloud/On-Premise Datacenter เพื่อให้บริการ Core Business เพื่อสร้างคุณจาก Zero to Hero บนโลกของ Docker World

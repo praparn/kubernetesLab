@@ -12,17 +12,17 @@ Part1: Container level configuration:
 	kubectl create namespace webmicroservice
 
 4. Create ConfigMap by command:
-	kubectl create -f webmodule_configmap.yml --namespace webmicroservice	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.1_ConfigMap_Secret/webmodule_configmap.yml --namespace webmicroservice)
+	kubectl create -f webmodule_configmap.yml --validate=false  --namespace webmicroservice	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.1_ConfigMap_Secret/webmodule_configmap.yml --validate=false  --namespace webmicroservice)
 	kubectl get configmap --namespace webmicroservice
 	kubectl describe configmap/webmodule-configmap --namespace webmicroservice
 
 5. Create Secret by command:
-	kubectl create -f databasemodule_secret.yml --namespace webmicroservice	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.1_ConfigMap_Secret/databasemodule_secret.yml --namespace webmicroservice)
+	kubectl create -f databasemodule_secret.yml --validate=false  --namespace webmicroservice	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.1_ConfigMap_Secret/databasemodule_secret.yml --validate=false  --namespace webmicroservice)
 	kubectl get secret --namespace webmicroservice
 	kubectl describe secret/databasemodule-secret --namespace webmicroservice
 
 6. Create Database Deployment by command:
-	kubectl create -f databasemodule_deploy_config.yml --namespace webmicroservice	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.1_ConfigMap_Secret/databasemodule_deploy_config.yml --namespace webmicroservice)
+	kubectl create -f databasemodule_deploy_config.yml --validate=false  --namespace webmicroservice	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.1_ConfigMap_Secret/databasemodule_deploy_config.yml --validate=false  --namespace webmicroservice)
 	kubectl get deploy --namespace webmicroservice
 	kubectl get rs --namespace webmicroservice
 	kubectl get pods --namespace webmicroservice
@@ -31,7 +31,7 @@ Part1: Container level configuration:
 	kubectl describe pods/<pods name>  --namespace webmicroservice
 
 8. Create WebModbule Deployment by command:
-	kubectl create -f webmodule_deploy_config.yml --namespace webmicroservice	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.1_ConfigMap_Secret/webmodule_deploy_config.yml --namespace webmicroservice)
+	kubectl create -f webmodule_deploy_config.yml --validate=false  --namespace webmicroservice	(In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_2.1_ConfigMap_Secret/webmodule_deploy_config.yml --validate=false  --namespace webmicroservice)
 	kubectl get deployment/web --namespace webmicroservice
 	kubectl get rs --namespace webmicroservice
 	kubectl get pods --namespace webmicroservice

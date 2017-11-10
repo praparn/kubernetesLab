@@ -7,7 +7,7 @@ Volume by HostPath:
 2. Check file on WorkShop
 
 3. Create Deployment for cAdvisor by command:
-	kubectl create -f cadvisor_deploy.yml (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.5_Volume/cadvisor_deploy.yml)
+	kubectl create -f cadvisor_deploy.yml --validate=false  (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.5_Volume/cadvisor_deploy.yml --validate=false )
 
 4. Check result on web browser:
 	http://<ip of minikube>:31000
@@ -23,7 +23,7 @@ Volume by HostPath:
   ls /var/lib/docker ==> check for "test_cAdvisor.txt"
 
 7. Create Another Deployment with Same:
-kubectl create -f webtest_pod.yml (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.5_Volume/webtest_pod.yml)
+kubectl create -f webtest_pod.yml --validate=false  (In case run via github: kubectl create -f https://raw.githubusercontent.com/praparn/kubernetesLab/master/WorkShop_1.5_Volume/webtest_pod.yml --validate=false )
 
 8. Access "WebTest Pods" and Check/Create file by command:
 	kubectl exec -it webtest sh

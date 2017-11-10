@@ -23,7 +23,7 @@ Manual install minikube for mac osx:
 
 5. configure minikube version by command: minikube config set kubernetes-version v1.7.0
 
-6. start minikube on command line: minikube start --vm-driver=virtualbox profile=minikubelab1 --iso-url=https://storage.googleapis.com/minikube/iso/minikube-v0.21.0.iso
+6. start minikube on command line: minikube start --vm-driver=virtualbox profile=minikubelab1 --iso-url=https://storage.googleapis.com/minikube/iso/minikube-v0.23.0.iso
 
 7. check status of minikube via command line: minikube status
 
